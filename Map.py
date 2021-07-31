@@ -1,21 +1,22 @@
+#FINISHED - DO NOT EDIT
+
 char0 = [1, 2, 4, 1] # [x, y, character determiner, direction(1=N,2=E,3=S,4=W)]
 
-
-cord = [[0, 0, 1.0], [1, 0, 1.0], [2, 0, 1.0], [3, 0, 1.0], [4, 0, 1.0],
+cord = [[0, 0, 1.0], [1, 0, 1.0], [2, 0, 1.0], [3, 0, 1.0], [4, 0, 1.0], #List of coordinates for the map
         [0, 1, 1.0], [1, 1, 3.0], [2, 1, 1.0], [3, 1, 0.0], [4, 1, 2.0],
         [0, 2, 1.0], [1, 2, 0.0], [2, 2, 1.0], [3, 2, 0.0], [4, 2, 1.0],
         [0, 3, 1.0], [1, 3, 0.0], [2, 3, 0.0], [3, 3, 0.0], [4, 3, 1.0],
         [0, 4, 1.0], [1, 4, 5.0], [2, 4, 0.0], [3, 4, 0.0], [4, 4, 1.0],
         [0, 5, 1.0], [1, 5, 1.0], [2, 5, 1.0], [3, 5, 1.0], [4, 5, 1.0]]
 
-charList = [char0]
+charList = [char0] #Meant for multiple characters
 
-act = ""
+act = "" #Used to read string of commands
 
-seconds = 0
+seconds = 0 #amount of time that passed
 
 
-def printChar(cordList, n):
+def printChar(cordList, n): #Determins what characters should be printed based on third var in array
     if cordList[n][2] == 1:
         return "M"
     elif cordList[n][2] == 2:
@@ -28,7 +29,7 @@ def printChar(cordList, n):
         return "."
 
 
-def replaceChar(cordList, n, charCords):
+def replaceChar(cordList, n, charCords): #Determines direction player should face, and corresponding character to be printed
     for x in range(len(charCords)):
         if charCords[x][2] == 4:
             if cordList[n][0] == charCords[x][0] and cordList[n][1] == charCords[x][1]:
@@ -43,7 +44,7 @@ def replaceChar(cordList, n, charCords):
     return printChar(cordList, n)
 
 
-def displayMap(cordList, y, charCord):
+def displayMap(cordList, y, charCord): #actually displays the map
     x = 1
     while x < len(cordList)+1:
         if x % y == 0:
@@ -57,7 +58,7 @@ def displayMap(cordList, y, charCord):
     print("---")
 
 
-def moveChar(charac, move, obs):
+def moveChar(charac, move, obs): #Moves the character
     x1 = 0
     y1 = 0
     if (move == "w" and charac[3] == 1) or (move == "d" and charac[3] == 4) or (move == "s" and charac[3] == 3) or (move == "a" and charac[3] == 2):
@@ -88,7 +89,7 @@ def moveChar(charac, move, obs):
                 break
 
 
-def interact(charac, obj):
+def interact(charac, obj): #governs interaction
     x1 = 0
     y1 = 0
     if charac[3] == 1:
@@ -111,19 +112,15 @@ def interact(charac, obj):
                     if obj[x][2] == 2:
                         obj[x][2] = -2
                         print("You open the door.")
-                        break
                     elif obj[x][2] == -2:
                         obj[x][2] = 2
                         print("You close the door.")
-                        break
                 elif ac == "2":
                     print("You look at the door.")
                     print("It is not as dusty as the rest of the room, but paint is flaking off.")
                     print("The doorknob is bronze, shiny, and not rusted out.")
-                    break
                 else:
                     print("You decide to do nothing")
-                    break
             elif obj[x][2] == 3:
                 print("You see a toilet.")
                 print("It has a lever, and a basin where water is stored.")
@@ -135,14 +132,11 @@ def interact(charac, obj):
                     print("*FWOOOOOSH*")
                     print("Water from the bowl flows down into the drain, as water seeps from the sides.")
                     print("The water level goes down, and soon rises back to normal.")
-                    break
                 elif ac == "2":
                     print("You look at the toilet.")
                     print("It looks like a normal household toilet, except caked in grime and looking all rusty.")
-                    break
                 else:
                     print("You decide to do nothing")
-                    break
             elif obj[x][2] == 5:
                 print("You see a bare cot with no sheets.")
                 print("It has a pillow on it though.")
@@ -150,18 +144,16 @@ def interact(charac, obj):
                 print("2. Observe")
                 ac = input("#: ")
                 if ac == "1":
-                    print("You touch the cot, and feel that it is quite rough and dusty.")
-                    break
+                    print("You decide to lay on the cot.")
+                    print("It feels super uncomfortable, so you get up quickly.")
                 elif ac == "2":
                     print("You look at the cot.")
                     print("The metal frame is rusted and the bedding itself looks moldy and dusty.")
-                    break
                 else:
                     print("You decide to do nothing")
-                    break
 
 
-while act != "stop":
+while act != "08202002": #where the game actually starts
     if char0[0] == 4 and char0[1] == 1:
         break
     else:
