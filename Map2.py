@@ -299,6 +299,8 @@ while inCord != 2: #where the game actually starts
             reaction = ""
             print("-----")
             print("You are in a concrete room.")
+            print("The lights are harsh and bright, beaming from incadescent lighting tubes.")
+            print("The stench of bleach and stagnant water permeates the entire room.")
             print("There is a toilet in a corner, and a cot across from it.")
             print("There is a door with a doorknob on it.")
             print("Seconds Passed: "+str(seconds))
