@@ -25,21 +25,25 @@ act = "" #Used to read string of commands
 
 seconds = 0 #amount of time that passed
 
+reaction = ""
+
 inCord = 0
 
 
 def printChar(cordList, n): #Determins what characters should be printed based on third var in array
-    if cordList[n][2] == 1:
+    if cordList[n][2] == 1: #Wall
         return "M"
-    elif cordList[n][2] == 2:
+    elif cordList[n][2] == 2: #Regular door
         return "N"
-    elif cordList[n][2] == 3:
+    elif cordList[n][2] == 3: #Toilet
         return "T"
-    elif cordList[n][2] == 5:
+    elif cordList[n][2] == 5: #Cot
         return "C"
-    elif cordList[n][2] == 6:
+    elif cordList[n][2] == 6: #Keypad door
         return "B"
-    elif cordList[n][2] == -4:
+    elif cordList[n][2] == 7: #Dead body
+        return "R"
+    elif cordList[n][2] == -4: #Dead body
         return "@"
     else:
         return "."
@@ -116,6 +120,7 @@ def moveChar(charac, move, obs): #Moves the character
 
 
 def Interact(charac, obj): #governs Interaction
+    global reaction
     x1 = 0
     y1 = 0
     if charac[3] == 1:
@@ -138,16 +143,16 @@ def Interact(charac, obj): #governs Interaction
                 if ac == "1":
                     if obj[x][2] == 2:
                         obj[x][2] = -2
-                        print("You open the door.")
+                        reaction = ("You open the door.")
                     elif obj[x][2] == -2:
                         obj[x][2] = 2
-                        print("You close the door.")
+                        reaction = ("You close the door.")
                 elif ac == "2":
-                    print("You look at the door.")
-                    print("It is not as dusty as the rest of the room, but paint is flaking off.")
-                    print("The doorknob is bronze, shiny, and not rusted out.")
+                    reaction = ("You look at the door.\n"
+                                "It is not as dusty as the rest of the room, but paint is flaking off.\n"
+                                "The doorknob is bronze, shiny, and not rusted out.")
                 else:
-                    print("You decide to do nothing")
+                    reaction = ("You decide to do nothing")
             elif obj[x][2] == 3:
                 print("You see a toilet.")
                 print("It has a lever, and a basin where water is stored.")
@@ -156,15 +161,15 @@ def Interact(charac, obj): #governs Interaction
                 print("ANY OTHER KEY. Do Nothing")
                 ac = input("#: ")
                 if ac == "1":
-                    print("You push down the lever.")
-                    print("*FWOOOOOSH*")
-                    print("Water from the bowl flows down into the drain, as water seeps from the sides.")
-                    print("The water level goes down, and soon rises back to normal.")
+                    reaction = ("You push down the lever.\n"
+                                "*FWOOOOOSH*\n"
+                                "Water from the bowl flows down into the drain, as water seeps from the sides.\n"
+                                "The water level goes down, and soon rises back to normal.")
                 elif ac == "2":
-                    print("You look at the toilet.")
-                    print("It looks like a normal household toilet, except caked in grime and looking all rusty.")
+                    reaction = ("You look at the toilet.\n"
+                                "It looks like a normal household toilet, except caked in grime and looking all rusty.")
                 else:
-                    print("You decide to do nothing.")
+                    reaction = ("You decide to do nothing.")
             elif obj[x][2] == 5:
                 print("You see a bare cot with no sheets.")
                 print("It has a pillow on it though.")
@@ -173,13 +178,13 @@ def Interact(charac, obj): #governs Interaction
                 print("ANY OTHER KEY. Do Nothing")
                 ac = input("#: ")
                 if ac == "1":
-                    print("You decide to lay on the cot.")
-                    print("It feels super uncomfortable, so you get up quickly.")
+                    reaction = ("You decide to lay on the cot.\n"
+                                "It feels super uncomfortable, so you get up quickly.")
                 elif ac == "2":
-                    print("You look at the cot.")
-                    print("The metal frame is rusted and the bedding itself looks moldy and dusty.")
+                    reaction = ("You look at the cot.\n"
+                                "The metal frame is rusted and the bedding itself looks moldy and dusty.")
                 else:
-                    print("You decide to do nothing.")
+                    reaction = ("You decide to do nothing")
             elif obj[x][2] == -4:
                 print("You see a body.")
                 print("It is clothed in an orange jumpsuit, with several holes torn in it, as well as bloodstains surrounding them.")
@@ -188,19 +193,19 @@ def Interact(charac, obj): #governs Interaction
                 print("ANY OTHER KEY. Do Nothing")
                 ac = input("#: ")
                 if ac == "1":
-                    print("You flip over the body.")
-                    print("The same holes present in the back are shown in the front.")
-                    print("The jumpsuit at the front is colored a shade of crimson red.")
-                    print("In the pool of blood is a piece of paper.")
-                    print("Although the paper is red, the black text can be seen, which has the numbers '1 3 9 7' on it.")
-                    print("You decide to put the body back in place, so it looks like it has been undisturbed.")
+                    reaction = ("You flip over the body.\n"
+                                "The same holes present in the back are shown in the front.\n"
+                                "The jumpsuit at the front is colored a shade of crimson red.\n"
+                                "In the pool of blood is a piece of paper.\n"
+                                "Although the paper is red, the black text can be seen, which has the numbers '1 3 9 7' on it.\n"
+                                "You decide to put the body back in place, so it looks like it has been undisturbed.")
                 elif ac == "2":
-                    print("You get a closer look at the body.")
-                    print("The corpse looks white, both in its skin color and because of the lack of blood inside the body.")
-                    print("The face is intact, but the eyes and mouth are open.")
-                    print("Rigor mortis appears to have set in.")
+                    reaction = ("You get a closer look at the body.\n"
+                                "The corpse looks white, both in its skin color and because of the lack of blood inside the body.\n"
+                                "The face is intact, but the eyes and mouth are open.\n"
+                                "Rigor mortis appears to have set in.")
                 else:
-                    print("You decide to do nothing.")
+                    reaction = ("You decide to do nothing")
             elif abs(obj[x][2]) == 6:
                 print("You see a door.")
                 print("It is the same color as the room, and has a keypad directly to the left side of the door.")
@@ -217,23 +222,24 @@ def Interact(charac, obj): #governs Interaction
                         print("[7][8][9]")
                         print("[ ][0][ ]")
                         act1 = input("#: ")
-                        print("You press the asterik key to input the code.")
                         if act1 == "1397":
                             obj[x][2] = -6
-                            print("You hear a high pitched beep.")
-                            print("The door is unlocked.")
-                            print("It slides open from the top")
+                            reaction = ("You press the asterik key to input the code.\n"
+                                        "You hear a high pitched beep.\n"
+                                        "The door is unlocked.\n"
+                                        "It slides open from the top")
                         else:
-                            print("You hear a low pitched beep.")
-                            print("The door stays in its place.")
+                            reaction = ("You press the asterik key to input the code.\n"
+                                        "You hear a low pitched beep.\n"
+                                        "The door stays in its place.")
                     else:
-                        print("The door is already unlocked")
+                        reaction = ("The door is already unlocked")
                 elif ac == "2":
-                    print("You look at the door.")
-                    print("The keypad looks as clean as the door, and is silver in color, with the shine to match.")
-                    print("It appears that there is wear on the buttons.")
+                    reaction = ("You look at the door.\n"
+                                "The keypad looks as clean as the door, and is silver in color, with the shine to match.\n"
+                                "It appears that there is wear on the buttons.")
                 else:
-                    print("You decide to do nothing.")
+                    reaction = ("You decide to do nothing")
 
 
 def charControl(cmds, chara, maps, seconds):
@@ -289,6 +295,9 @@ while inCord != 2: #where the game actually starts
             char0[1] = 1
         else:
             displayMap(cord, 5, charList)
+            print(reaction)
+            reaction = ""
+            print("-----")
             print("You are in a concrete room.")
             print("There is a toilet in a corner, and a cot across from it.")
             print("There is a door with a doorknob on it.")
@@ -302,9 +311,11 @@ while inCord != 2: #where the game actually starts
             char0[1] = 1
         elif char0[0] == 2 and char0[1] == 9:
             inCord = 2
-            break
         else:
             displayMap(cord1, 3, charList)
+            print(reaction)
+            reaction = ""
+            print("-----")
             print("You are in a concrete hallway.")
             print("There is a body laying in the middle of the hallway face down, with a pool of blood around it.")
             print("There are two doors, one with a door knob on it, and one with a keypad.")
