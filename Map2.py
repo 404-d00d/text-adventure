@@ -25,9 +25,9 @@ act = "" #Used to read string of commands
 
 seconds = 0 #amount of time that passed
 
-reaction = ""
+reaction = "" #prints result of action below map
 
-inCord = 0
+inCord = 0 #determines what map should be displayed
 
 
 def printChar(cordList, n): #Determins what characters should be printed based on third var in array
@@ -41,18 +41,16 @@ def printChar(cordList, n): #Determins what characters should be printed based o
         return "C"
     elif cordList[n][2] == 6: #Keypad door
         return "B"
-    elif cordList[n][2] == 7: #Dead body
-        return "R"
     elif cordList[n][2] == -4: #Dead body
         return "@"
-    else:
+    else: #Empty Space
         return "."
 
 
 def replaceChar(cordList, n, charCords): #Determines direction player should face, and corresponding character to be printed
-    for x in range(len(charCords)):
-        if charCords[x][2] == 4:
-            if cordList[n][0] == charCords[x][0] and cordList[n][1] == charCords[x][1]:
+    for x in range(len(charCords)): #Grabs all characters in map
+        if charCords[x][2] == 4: #4 is the player character
+            if cordList[n][0] == charCords[x][0] and cordList[n][1] == charCords[x][1]: #Shows 
                 if charCords[x][3] == 1:
                     return "^"
                 elif charCords[x][3] == 2:
