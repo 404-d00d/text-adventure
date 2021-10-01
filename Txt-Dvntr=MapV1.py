@@ -11,6 +11,8 @@ cord = [[[1.0, ""], [1.0, ""], [1.0, ""], [6.0, ""], [1.0, ""]], #List of coordi
 
 chars = [char0]
 
+act = ""
+
 def representOb(mapCord, x, y):
     if mapCord[y][x][0]==1:
         return "N"
@@ -58,4 +60,26 @@ def printDisplay(characters, mapCord):
                 if not charac:
                     print(representOb(mapCord, x, y), end=" ")
 
-printDisplay(chars, cord)
+def moveCharacter(character, z):
+    if z == 0:
+        if character[3] <= 4:
+            character[3] += 1
+            if character[3] == 5:
+                character[3] = 1
+    elif z == 1:
+        if character[3] >= 1:
+            character[3] -= 1
+            if character[3] == 0:
+                character[3] = 4
+    
+
+while char0[4]!=2:
+    printDisplay(chars, cord)
+    act = input("COMMAND: ")
+    for a in range(len(act)):
+        if act[a] == "e":
+            moveCharacter(char0, 0)
+        elif act[a] == "q":
+            moveCharacter(char0, 1)
+        else:
+            print("ERROR: Not a valid command")
