@@ -3,7 +3,7 @@
 char0 = [4, 1, 2, 1, 1] # [character determiner, x, y, direction(1=N,2=E,3=S,4=W), room]
 
 cord = [[[1.0, ""], [1.0, ""], [1.0, ""], [6.0, ""], [1.0, ""]], #List of coordinates for the map
-        [[1.0, ""], [3.0, ""], [0.0, ""], [0.0, ""], [-2.0, ""]],
+        [[1.0, ""], [3.0, ""], [0.0, ""], [0.0, ""], [2.0, ""]],
         [[1.0, ""], [0.0, ""], [0.0, ""], [0.0, ""], [1.0, ""]],
         [[1.0, ""], [0.0, ""], [0.0, ""], [0.0, ""], [1.0, ""]],
         [[1.0, ""], [5.0, ""], [0.0, ""], [7.0, ""], [1.0, ""]],
@@ -108,12 +108,21 @@ def moveCharacter(character, mapCord, z):
     if w == v:
         character[1] += (x1*-1)
         character[2] += (y1*-1)
-            
+
+print("You wake up, and find yourself on the floor, laying on your back.\n"
+      "You blink rapidly, and soon push yourself off the ground, and stand upright, your drowsiness fading as quickly as your woke up.")
 while char0[4]!=2:
     if char0[1]==4 and char0[2]==1:
         char0[4]=2
     else:
         printDisplay(chars, cord)
+        print("You are in a bathroom.\n"
+              "It is brightly lit by flourescent light tubes placed up on the tan ceiling, emmiting harsh light.\n"
+              "The smell of lavender and bile permeates throught the room.\n"
+              "A toilet, sink and mirror, shower-stall, and bathtub are inside the room.\n"
+              "The wall is pure white, with no blemishes and marks on it.\n"
+              "The floor is tiled tan and white, alternating between each color every row.\n"
+              "Much like the walls, there are no blemishes or marks on the floor.")
         act = input("COMMAND: ")
         for a in range(len(act)):
             if act[a] == "e":
@@ -133,4 +142,4 @@ while char0[4]!=2:
 
 print("You leave the bathroom")
 print("CONGRATULATIONS. YOU HAVE BEATEN THE GAME")
-act = input("Press any key to exit.")
+act = input("Press ENTER to exit.")
