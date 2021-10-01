@@ -1,6 +1,6 @@
 #MADE BY DAVID TRAN
 
-char0 = [4, 1, 2, 1] # [character determiner, x, y, direction(1=N,2=E,3=S,4=W)]
+char0 = [4, 1, 2, 1, 1] # [character determiner, x, y, direction(1=N,2=E,3=S,4=W), room]
 
 cord = [[[1.0, ""], [1.0, ""], [1.0, ""], [6.0, ""], [1.0, ""]], #List of coordinates for the map
         [[1.0, ""], [3.0, ""], [0.0, ""], [0.0, ""], [2.0, ""]],
@@ -8,6 +8,8 @@ cord = [[[1.0, ""], [1.0, ""], [1.0, ""], [6.0, ""], [1.0, ""]], #List of coordi
         [[1.0, ""], [0.0, ""], [0.0, ""], [0.0, ""], [1.0, ""]],
         [[1.0, ""], [5.0, ""], [0.0, ""], [7.0, ""], [1.0, ""]],
         [[1.0, ""], [1.0, ""], [1.0, ""], [1.0, ""], [1.0, ""]]]
+
+chars = [char0]
 
 def representOb(mapCord, x, y):
     if mapCord[y][x][0]==1:
@@ -26,25 +28,34 @@ def representOb(mapCord, x, y):
         return "."
 
 def printChar(characters):
-    if characters[0]==4:
-        if characters[3]==1:
-            return "^"
-        elif characters[3]==2:
-            return ">"
-        elif characters[3]==3:
-            return "v"
-        elif characters[3]==4:
-            return "<"
+    for x in range(len(characters)):
+        if characters[x][0]==4:
+            if characters[x][3]==1:
+                return "^"
+            elif characters[x][3]==2:
+                return ">"
+            elif characters[x][3]==3:
+                return "v"
+            elif characters[x][3]==4:
+                return "<"
 
-for y in range(len(cord)):
-    for x in range(len(cord[0])):
-        if x == len(cord[0])-1:
-            if char0[1]==x and char0[2]==y:
-                print(printChar(char0))
+def printDisplay(characters, mapCord):
+    for y in range(len(mapCord)):
+        for x in range(len(mapCord[0])):
+            charac = False
+            if x == len(mapCord[0])-1:
+                for z in range(len(characters)):
+                    if characters[z][1]==x and characters[z][2]==y:
+                        print(printChar(characters))
+                        charac = True
+                if not charac:
+                    print(representOb(mapCord, x, y))
             else:
-                print(representOb(cord, x, y))
-        else:
-            if char0[1] == x and char0[2] == y:
-                print(printChar(char0), end=" ")
-            else:
-                print(representOb(cord, x, y), end=" ")
+                for z in range(len(characters)):
+                    if characters[z][1]==x and characters[z][2]==y:
+                        print(printChar(characters), end=" ")
+                        charac = True
+                if not charac:
+                    print(representOb(mapCord, x, y), end=" ")
+
+printDisplay(chars, cord)
