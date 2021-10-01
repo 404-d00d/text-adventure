@@ -4,8 +4,8 @@ char0 = [4, 1, 2, 1, 1] # [character determiner, x, y, direction(1=N,2=E,3=S,4=W
 
 cord = [[[1.0, ""], [1.0, ""], [1.0, ""], [6.0, ""], [1.0, ""]], #List of coordinates for the map
         [[1.0, ""], [3.0, ""], [0.0, ""], [0.0, ""], [2.0, ""]],
-        [[1.0, ""], [0.0, ""], [0.0, ""], [0.0, ""], [1.0, ""]],
-        [[1.0, ""], [0.0, ""], [0.0, ""], [0.0, ""], [1.0, ""]],
+        [[-1.0, ""], [0.0, ""], [0.0, ""], [0.0, ""], [1.0, ""]],
+        [[-1.0, ""], [0.0, ""], [0.0, ""], [0.0, ""], [1.0, ""]],
         [[1.0, ""], [5.0, ""], [0.0, ""], [7.0, ""], [1.0, ""]],
         [[1.0, ""], [1.0, ""], [1.0, ""], [1.0, ""], [1.0, ""]]]
 
@@ -59,27 +59,71 @@ def printDisplay(characters, mapCord):
                         charac = True
                 if not charac:
                     print(representOb(mapCord, x, y), end=" ")
+    print("-----")
 
-def moveCharacter(character, z):
-    if z == 0:
+def turnCharacter(character, mapCord, z):
+    if z == "e":
         if character[3] <= 4:
             character[3] += 1
             if character[3] == 5:
                 character[3] = 1
-    elif z == 1:
+    elif z == "q":
         if character[3] >= 1:
             character[3] -= 1
             if character[3] == 0:
                 character[3] = 4
-    
 
+def moveCharacter(character, mapCord, z):
+    x1 = 0
+    y1 = 0
+    w = 0
+    v = 0
+    if (z == "w" and character[3] == 1) or (z == "d" and character[3] == 4) or (z == "s" and character[3] == 3) or (z == "a" and character[3] == 2):
+        x1 = 0
+        y1 = -1
+    elif (z == "w" and character[3] == 2) or (z == "d" and character[3] == 1) or (z == "s" and character[3] == 4) or (z == "a" and character[3] == 3):
+        x1 = 1
+        y1 = 0
+    elif (z == "w" and character[3] == 3) or (z == "d" and character[3] == 2) or (z == "s" and character[3] == 1) or (z == "a" and character[3] == 4):
+        x1 = 0
+        y1 = 1
+    elif (z == "w" and character[3] == 4) or (z == "d" and character[3] == 3) or (z == "s" and character[3] == 2) or (z == "a" and character[3] == 1):
+        x1 = -1
+        y1 = 0
+    character[1] += x1
+    character[2] += y1
+    for y in range(len(mapCord)):
+        for x in range(len(mapCord[0])):
+            if character[1]==x and character[2]==y and mapCord[y][x][0]>0:
+                character[1] += (x1*-1)
+                character[2] += (y1*-1)
+    for y in range(len(mapCord)):
+        for x in range(len(mapCord[0])):
+            if mapCord[y][x][0]<=0:
+                w += 1
+    for y in range(len(mapCord)):
+        for x in range(len(mapCord[0])):
+            if (character[1]!=x or character[2]!=y) and mapCord[y][x][0]<=0:
+                v += 1
+    if w == v:
+        character[1] += (x1*-1)
+        character[2] += (y1*-1)
+            
 while char0[4]!=2:
     printDisplay(chars, cord)
     act = input("COMMAND: ")
     for a in range(len(act)):
         if act[a] == "e":
-            moveCharacter(char0, 0)
+            turnCharacter(char0, cord, "e")
         elif act[a] == "q":
-            moveCharacter(char0, 1)
+            turnCharacter(char0, cord, "q")
+        elif act[a] == "w":
+            moveCharacter(char0, cord, "w")
+        elif act[a] == "s":
+            moveCharacter(char0, cord, "s")
+        elif act[a] == "a":
+            moveCharacter(char0, cord, "a")
+        elif act[a] == "d":
+            moveCharacter(char0, cord, "d")
         else:
             print("ERROR: Not a valid command")
