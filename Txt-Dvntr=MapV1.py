@@ -3,9 +3,9 @@
 char0 = [4, 1, 2, 1, 1] # [character determiner, x, y, direction(1=N,2=E,3=S,4=W), room]
 
 cord = [[[1.0, ""], [1.0, ""], [1.0, ""], [6.0, ""], [1.0, ""]], #List of coordinates for the map
-        [[1.0, ""], [3.0, ""], [0.0, ""], [0.0, ""], [2.0, ""]],
-        [[-1.0, ""], [0.0, ""], [0.0, ""], [0.0, ""], [1.0, ""]],
-        [[-1.0, ""], [0.0, ""], [0.0, ""], [0.0, ""], [1.0, ""]],
+        [[1.0, ""], [3.0, ""], [0.0, ""], [0.0, ""], [-2.0, ""]],
+        [[1.0, ""], [0.0, ""], [0.0, ""], [0.0, ""], [1.0, ""]],
+        [[1.0, ""], [0.0, ""], [0.0, ""], [0.0, ""], [1.0, ""]],
         [[1.0, ""], [5.0, ""], [0.0, ""], [7.0, ""], [1.0, ""]],
         [[1.0, ""], [1.0, ""], [1.0, ""], [1.0, ""], [1.0, ""]]]
 
@@ -61,7 +61,7 @@ def printDisplay(characters, mapCord):
                     print(representOb(mapCord, x, y), end=" ")
     print("-----")
 
-def turnCharacter(character, mapCord, z):
+def turnCharacter(character, z):
     if z == "e":
         if character[3] <= 4:
             character[3] += 1
@@ -110,20 +110,27 @@ def moveCharacter(character, mapCord, z):
         character[2] += (y1*-1)
             
 while char0[4]!=2:
-    printDisplay(chars, cord)
-    act = input("COMMAND: ")
-    for a in range(len(act)):
-        if act[a] == "e":
-            turnCharacter(char0, cord, "e")
-        elif act[a] == "q":
-            turnCharacter(char0, cord, "q")
-        elif act[a] == "w":
-            moveCharacter(char0, cord, "w")
-        elif act[a] == "s":
-            moveCharacter(char0, cord, "s")
-        elif act[a] == "a":
-            moveCharacter(char0, cord, "a")
-        elif act[a] == "d":
-            moveCharacter(char0, cord, "d")
-        else:
-            print("ERROR: Not a valid command")
+    if char0[1]==4 and char0[2]==1:
+        char0[4]=2
+    else:
+        printDisplay(chars, cord)
+        act = input("COMMAND: ")
+        for a in range(len(act)):
+            if act[a] == "e":
+                turnCharacter(char0, "e")
+            elif act[a] == "q":
+                turnCharacter(char0, "q")
+            elif act[a] == "w":
+                moveCharacter(char0, cord, "w")
+            elif act[a] == "s":
+                moveCharacter(char0, cord, "s")
+            elif act[a] == "a":
+                moveCharacter(char0, cord, "a")
+            elif act[a] == "d":
+                moveCharacter(char0, cord, "d")
+            else:
+                print("ERROR: Not a valid command")
+
+print("You leave the bathroom")
+print("CONGRATULATIONS. YOU HAVE BEATEN THE GAME")
+act = input("Press any key to exit.")
