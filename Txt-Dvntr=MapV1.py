@@ -1,9 +1,10 @@
 #MADE BY DAVID TRAN
+import math
 
 char0 = [4, 1, 2, 1, 1] # [character determiner, x, y, direction(1=N,2=E,3=S,4=W), room]
 
 cord = [[[1.0, ""], [1.0, ""], [1.0, ""], [6.0, ""], [1.0, ""]], #List of coordinates for the map
-        [[1.0, ""], [3.0, ""], [0.0, ""], [0.0, ""], [2.0, ""]],
+        [[1.0, ""], [3.1, ""], [0.0, ""], [0.0, ""], [2.0, ""]],
         [[1.0, ""], [0.0, ""], [0.0, ""], [0.0, ""], [1.0, ""]],
         [[1.0, ""], [0.0, ""], [0.0, ""], [0.0, ""], [1.0, ""]],
         [[1.0, ""], [5.0, ""], [0.0, ""], [7.0, ""], [1.0, ""]],
@@ -14,17 +15,17 @@ chars = [char0]
 act = ""
 
 def representOb(mapCord, x, y):
-    if mapCord[y][x][0]==1:
+    if math.floor(mapCord[y][x][0])==1:
         return "N"
-    elif mapCord[y][x][0]==3:
+    elif math.floor(mapCord[y][x][0])==3:
         return "A"
-    elif mapCord[y][x][0]==6:
+    elif math.floor(mapCord[y][x][0])==6:
         return "0"
-    elif mapCord[y][x][0]==2:
+    elif math.floor(mapCord[y][x][0])==2:
         return "D"
-    elif mapCord[y][x][0]==5:
+    elif math.floor(mapCord[y][x][0])==5:
         return "T"
-    elif mapCord[y][x][0]==7:
+    elif math.floor(mapCord[y][x][0])==7:
         return "Q"
     else:
         return "."
@@ -61,7 +62,11 @@ def printDisplay(characters, mapCord):
                     print(representOb(mapCord, x, y), end=" ")
     print("-----")
 
-def turnCharacter(character, z):
+def moveCharacter(character, mapCord, z):
+    x1 = 0
+    y1 = 0
+    w = 0
+    v = 0
     if z == "e":
         if character[3] <= 4:
             character[3] += 1
@@ -72,13 +77,7 @@ def turnCharacter(character, z):
             character[3] -= 1
             if character[3] == 0:
                 character[3] = 4
-
-def moveCharacter(character, mapCord, z):
-    x1 = 0
-    y1 = 0
-    w = 0
-    v = 0
-    if (z == "w" and character[3] == 1) or (z == "d" and character[3] == 4) or (z == "s" and character[3] == 3) or (z == "a" and character[3] == 2):
+    elif (z == "w" and character[3] == 1) or (z == "d" and character[3] == 4) or (z == "s" and character[3] == 3) or (z == "a" and character[3] == 2):
         x1 = 0
         y1 = -1
     elif (z == "w" and character[3] == 2) or (z == "d" and character[3] == 1) or (z == "s" and character[3] == 4) or (z == "a" and character[3] == 3):
@@ -120,7 +119,7 @@ def interactObj(character, mapCord):
             elif character[1]==x+1 and character[2]==y and character[3]==2:
                 x1 = 1
                 y1 = 0
-            elif character[1]==x and character[2]==y and character[3]==3:
+            elif character[1]==x and character[2]==y+1 and character[3]==3:
                 x1 = 0
                 y1 = 1
             elif character[1]==x-1 and character[2]==y and character[3]==4:
@@ -128,15 +127,13 @@ def interactObj(character, mapCord):
                 y1 = 0
             if mapCord[y+y1][x+x1][0]==3:
                 print("AMONG US")
-            elif mapCord[y+y1][x+x1][0]==6:
-                print("IMPOSTER")
 
 def gamePlay(action):
     for a in range(len(act)):
         if act[a] == "e":
-            turnCharacter(char0, "e")
+            moveCharacter(char0, cord, "e")
         elif act[a] == "q":
-            turnCharacter(char0, "q")
+            moveCharacter(char0, cord, "q")
         elif act[a] == "w":
             moveCharacter(char0, cord, "w")
         elif act[a] == "s":
