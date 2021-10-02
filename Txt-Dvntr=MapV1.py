@@ -109,8 +109,51 @@ def moveCharacter(character, mapCord, z):
         character[1] += (x1*-1)
         character[2] += (y1*-1)
 
+def interactObj(character, mapCord):
+    x1 = 0
+    y1 = 0
+    for y in range(len(mapCord)):
+        for x in range(len(mapCord[0])):
+            if character[1]==x and character[2]==y-1 and character[3]==1:
+                x1 = 0
+                y1 = -1
+            elif character[1]==x+1 and character[2]==y and character[3]==2:
+                x1 = 1
+                y1 = 0
+            elif character[1]==x and character[2]==y and character[3]==3:
+                x1 = 0
+                y1 = 1
+            elif character[1]==x-1 and character[2]==y and character[3]==4:
+                x1 = -1
+                y1 = 0
+            if mapCord[y+y1][x+x1][0]==3:
+                print("AMONG US")
+            elif mapCord[y+y1][x+x1][0]==6:
+                print("IMPOSTER")
+
+def gamePlay(action):
+    for a in range(len(act)):
+        if act[a] == "e":
+            turnCharacter(char0, "e")
+        elif act[a] == "q":
+            turnCharacter(char0, "q")
+        elif act[a] == "w":
+            moveCharacter(char0, cord, "w")
+        elif act[a] == "s":
+            moveCharacter(char0, cord, "s")
+        elif act[a] == "a":
+            moveCharacter(char0, cord, "a")
+        elif act[a] == "d":
+            moveCharacter(char0, cord, "d")
+        elif act[a] == "f":
+            interactObj(char0, cord)
+        else:
+            print("ERROR: Not a valid command")
+
+            
 print("You wake up, and find yourself on the floor, laying on your back.\n"
       "You blink rapidly, and soon push yourself off the ground, and stand upright, your drowsiness fading as quickly as your woke up.")
+
 while char0[4]!=2:
     if char0[1]==4 and char0[2]==1:
         char0[4]=2
@@ -118,28 +161,14 @@ while char0[4]!=2:
         printDisplay(chars, cord)
         print("You are in a bathroom.\n"
               "It is brightly lit by flourescent light tubes placed up on the tan ceiling, emmiting harsh light.\n"
-              "The smell of lavender and bile permeates throught the room.\n"
+              "The smell of lavender and bile permeates the room.\n"
               "A toilet, sink and mirror, shower-stall, and bathtub are inside the room.\n"
               "The wall is pure white, with no blemishes and marks on it.\n"
               "The floor is tiled tan and white, alternating between each color every row.\n"
               "Much like the walls, there are no blemishes or marks on the floor.")
         act = input("COMMAND: ")
-        for a in range(len(act)):
-            if act[a] == "e":
-                turnCharacter(char0, "e")
-            elif act[a] == "q":
-                turnCharacter(char0, "q")
-            elif act[a] == "w":
-                moveCharacter(char0, cord, "w")
-            elif act[a] == "s":
-                moveCharacter(char0, cord, "s")
-            elif act[a] == "a":
-                moveCharacter(char0, cord, "a")
-            elif act[a] == "d":
-                moveCharacter(char0, cord, "d")
-            else:
-                print("ERROR: Not a valid command")
-
+        gamePlay(act)
+        
 print("You leave the bathroom")
 print("CONGRATULATIONS. YOU HAVE BEATEN THE GAME")
 act = input("Press ENTER to exit.")
