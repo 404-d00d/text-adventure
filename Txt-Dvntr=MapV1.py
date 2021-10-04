@@ -123,6 +123,11 @@ def interactObj(character, mapCord):
     elif character[3]==4:
         x1 = -1
         y1 = 0
+    print("X-mod: "+str(x1)+"    Y-mod: "+str(y1))
+    for y in range(len(mapCord)):
+        for x in range(len(mapCord[0])):
+            if character[1]+x1 == x and character[2]+y1 == y:
+                print("AMOGUS")
 
 def gamePlay(action):
     for a in range(len(act)):
