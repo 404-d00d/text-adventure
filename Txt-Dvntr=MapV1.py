@@ -111,22 +111,18 @@ def moveCharacter(character, mapCord, z):
 def interactObj(character, mapCord):
     x1 = 0
     y1 = 0
-    for y in range(len(mapCord)):
-        for x in range(len(mapCord[0])):
-            if character[1]==x and character[2]==y-1 and character[3]==1:
-                x1 = 0
-                y1 = -1
-            elif character[1]==x+1 and character[2]==y and character[3]==2:
-                x1 = 1
-                y1 = 0
-            elif character[1]==x and character[2]==y+1 and character[3]==3:
-                x1 = 0
-                y1 = 1
-            elif character[1]==x-1 and character[2]==y and character[3]==4:
-                x1 = -1
-                y1 = 0
-            if mapCord[y+y1][x+x1][0]==3:
-                print("AMONG US")
+    if character[3]==1:
+        x1 = 0
+        y1 = -1
+    elif character[3]==2:
+        x1 = 1
+        y1 = 0
+    elif character[3]==3:
+        x1 = 0
+        y1 = 1
+    elif character[3]==4:
+        x1 = -1
+        y1 = 0
 
 def gamePlay(action):
     for a in range(len(act)):
