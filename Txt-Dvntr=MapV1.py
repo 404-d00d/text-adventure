@@ -127,7 +127,8 @@ def interactObj(character, mapCord):
     for y in range(len(mapCord)):
         for x in range(len(mapCord[0])):
             if character[1]+x1 == x and character[2]+y1 == y:
-                print("AMOGUS")
+                if mapCord[y][x][0]==3:
+                    print("AMOGUS")
 
 def gamePlay(action):
     for a in range(len(act)):
