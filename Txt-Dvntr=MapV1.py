@@ -127,8 +127,9 @@ def interactObj(character, mapCord):
     for y in range(len(mapCord)):
         for x in range(len(mapCord[0])):
             if character[1]+x1 == x and character[2]+y1 == y:
-                if mapCord[y][x][0]==3:
-                    print("AMOGUS")
+                if math.floor(mapCord[y][x][0])==3:
+                    print("You see a toilet.\n"
+                          "It is porcelain white, with no blemishes or marks on the body.")
 
 def gamePlay(action):
     for a in range(len(act)):
