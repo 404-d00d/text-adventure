@@ -27,6 +27,8 @@ def representOb(mapCord, x, y):
         return "T"
     elif math.floor(mapCord[y][x][0])==7:
         return "Q"
+    elif math.floor(mapcord[y][x][0])==-2:
+        return "_"
     else:
         return "."
 
@@ -109,7 +111,7 @@ def moveCharacter(character, mapCord, z):
         character[2] += (y1*-1)
 
 def interactObj(character, mapCord):
-    numb = ""
+    inp = ""
     x1 = 0
     y1 = 0
     if character[3]==1:
@@ -133,6 +135,10 @@ def interactObj(character, mapCord):
                           "The tank lid and tank of the toilet appear to be bolted to the toilet basin and the wall itself.\n"
                           "The toilet lid and toilet basin are white and clean as the rest of the toilet.\n"
                           "The toilet is shiny, reflecting the light from the celing light tubes.")
+                    print("1. Look Closer\n"
+                          "2. Interact\n"
+                          "Any Other Option. Do Nothing")
+                    inp = input(": ")
 
 def gamePlay(action):
     for a in range(len(act)):
@@ -172,6 +178,6 @@ while char0[4]!=2:
         act = input("COMMAND: ")
         gamePlay(act)
         
-print("You leave the bathroom")
-print("CONGRATULATIONS. YOU HAVE BEATEN THE GAME")
+print("You leave the bathroom.\n"
+      "CONGRATULATIONS. YOU HAVE BEATEN THE GAME")
 act = input("Press ENTER to exit.")
