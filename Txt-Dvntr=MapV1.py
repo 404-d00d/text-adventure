@@ -22,7 +22,7 @@ def representOb(mapCord, x, y):
     elif math.floor(mapCord[y][x][0])==6:
         return "0"
     elif math.floor(mapCord[y][x][0])==2:
-        return "D"
+        return "|"
     elif math.floor(mapCord[y][x][0])==5:
         return "T"
     elif math.floor(mapCord[y][x][0])==7:
@@ -109,6 +109,7 @@ def moveCharacter(character, mapCord, z):
         character[2] += (y1*-1)
 
 def interactObj(character, mapCord):
+    numb = ""
     x1 = 0
     y1 = 0
     if character[3]==1:
@@ -123,13 +124,15 @@ def interactObj(character, mapCord):
     elif character[3]==4:
         x1 = -1
         y1 = 0
-    print("X-mod: "+str(x1)+"    Y-mod: "+str(y1))
     for y in range(len(mapCord)):
         for x in range(len(mapCord[0])):
             if character[1]+x1 == x and character[2]+y1 == y:
                 if math.floor(mapCord[y][x][0])==3:
                     print("You see a toilet.\n"
-                          "It is porcelain white, with no blemishes or marks on the body.")
+                          "It is porcelain white, with no blemishes or marks on the body.\n"
+                          "The tank lid and tank of the toilet appear to be bolted to the toilet basin and the wall itself.\n"
+                          "The toilet lid and toilet basin are white and clean as the rest of the toilet.\n"
+                          "The toilet is shiny, reflecting the light from the celing light tubes.")
 
 def gamePlay(action):
     for a in range(len(act)):
@@ -161,7 +164,7 @@ while char0[4]!=2:
         printDisplay(chars, cord)
         print("You are in a bathroom.\n"
               "It is brightly lit by flourescent light tubes placed up on the tan ceiling, emmiting harsh light.\n"
-              "The smell of lavender and bile permeates the room.\n"
+              "The smell of lavender and soap permeates the room.\n"
               "A toilet, sink and mirror, shower-stall, and bathtub are inside the room.\n"
               "The wall is pure white, with no blemishes and marks on it.\n"
               "The floor is tiled tan and white, alternating between each color every row.\n"
