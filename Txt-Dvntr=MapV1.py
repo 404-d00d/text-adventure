@@ -139,6 +139,10 @@ def interactObj(character, mapCord):
                           "2. Interact\n"
                           "Any Other Option. Do Nothing")
                     inp = input(": ")
+                    if inp == 2:
+                        print("")
+                    else:
+                        print("You do nothing.")
 
 def gamePlay(action):
     for a in range(len(act)):
