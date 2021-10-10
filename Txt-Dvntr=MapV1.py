@@ -27,7 +27,7 @@ def representOb(mapCord, x, y):
         return "T"
     elif math.floor(mapCord[y][x][0])==7:
         return "Q"
-    elif math.floor(mapcord[y][x][0])==-2:
+    elif math.floor(mapCord[y][x][0])==-2:
         return "_"
     else:
         return "."
