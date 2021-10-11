@@ -141,7 +141,17 @@ def interactObj(character, mapCord):
                           "Any Other Option. Do Nothing")
                     inp = input(": ")
                     if inp == "1":
-                        print("You push down on the toilet handle on the tank.")
+                        if mapCord[y][x][0] == 3:
+                            print("You lift up the toilet lid.\n"
+                                  "The bowl is clear and clean.\n"
+                                  "The water in the bowl is transparent, letting you see the inside of the toilet bowl.\n"
+                                  "Much like the outside of the toilet, the inside of the basin is white.")
+                        elif mapCord[y][x][0] == 3.1:
+                            print("You lift up the toilet lid.\n"
+                                  "The bowl is filled with water, chunks of food, and bile.\n"
+                                  "The bile and food chunks float on the water's surface, and are mixed together cleanly.\n"
+                                  "It's hard to tell what is bile and what are the food chunks.\n"
+                                  "You immediately close the toilet lid, just to avoid adding more to that accursed pile.")
                     elif inp == "2":
                         print("You push down on the toilet handle on the tank.\n"
                               "You hear the sound of water flowing into the toilet bowl, followed by the sound of water rushing down the pipes.\n"
