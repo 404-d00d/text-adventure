@@ -159,6 +159,11 @@ def interactObj(character, mapCord):
                         mapCord[y][x][0]=3
                     else:
                         print("You do nothing.")
+                elif mapCord[y][x][0]==abs(2):
+                    print("1. Look Closer\n"
+                          "2. Interact\n"
+                          "Any Other Option. Do Nothing")
+                    inp = input(": ")
 
 def gamePlay(action):
     for a in range(len(act)):
