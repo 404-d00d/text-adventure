@@ -134,13 +134,19 @@ def interactObj(character, mapCord):
                           "It is porcelain white, with no blemishes or marks on the body.\n"
                           "The tank lid and tank of the toilet appear to be bolted to the toilet basin and the wall itself.\n"
                           "The toilet lid and toilet basin are white and clean as the rest of the toilet.\n"
-                          "The toilet is shiny, reflecting the light from the celing light tubes.")
+                          "The toilet is shiny, reflecting the light from the celing light tubes.\n"
+                          "The toilet lid is closed.")
                     print("1. Look Closer\n"
                           "2. Interact\n"
                           "Any Other Option. Do Nothing")
                     inp = input(": ")
-                    if inp == 2:
-                        print("")
+                    if inp == "1":
+                        print("You push down on the toilet handle on the tank.")
+                    elif inp == "2":
+                        print("You push down on the toilet handle on the tank.\n"
+                              "You hear the sound of water flowing into the toilet bowl, followed by the sound of water rushing down the pipes.\n"
+                              "It's eventually followed by the rush of water back into the toilet basin.")
+                        mapCord[y][x][0]=3
                     else:
                         print("You do nothing.")
 
