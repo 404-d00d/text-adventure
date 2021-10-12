@@ -159,7 +159,7 @@ def interactObj(character, mapCord):
                         mapCord[y][x][0]=3
                     else:
                         print("You do nothing.")
-                elif mapCord[y][x][0]==abs(2):
+                elif abs(mapCord[y][x][0])==2:
                     print("You see a door.\n"
                           "It is chalk-white, with a grayish trim around the edges of the door.\n"
                           "The doorknob is to the center-right of the door itself, and is brass colored.\n"
