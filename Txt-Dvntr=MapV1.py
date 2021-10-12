@@ -160,10 +160,26 @@ def interactObj(character, mapCord):
                     else:
                         print("You do nothing.")
                 elif mapCord[y][x][0]==abs(2):
-                    print("1. Look Closer\n"
-                          "2. Interact\n"
+                    print("You see a door.\n"
+                          "It is chalk-white, with a grayish trim around the edges of the door.\n"
+                          "The doorknob is to the center-right of the door itself, and is brass colored.\n"
+                          "It is clean and has no dust or dirt on it.")
+                    print("1. Interact\n"
                           "Any Other Option. Do Nothing")
                     inp = input(": ")
+                    if inp == "1":
+                        if mapCord[y][x][0]==-2:
+                            res=("You grab the doorknob, and push the door away from you.\n"
+                                 "It locks into the door frame with a thud.\n"
+                                 "As you let go of the doorknob, it springs back into the locked position with a click.")
+                            mapCord[y][x][0] *= -1
+                        elif mapCord[y][x][0]==2:
+                            res=("You grab the doorknob, and twist it to the right.\n"
+                                 "The door unlocks as you pull it towards your body.\n"
+                                 "It is now open.")
+                            mapCord[y][x][0] *= -1
+                    else:
+                        res=("You do nothing.")
 
 def gamePlay(action):
     for a in range(len(act)):
