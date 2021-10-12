@@ -168,12 +168,13 @@ def interactObj(character, mapCord):
                           "Any Other Option. Do Nothing")
                     inp = input(": ")
                     if inp == "1":
-                        if mapCord[y][x][0]==-2:
+                        if mapCord[y][x][0] == -2:
                             res=("You grab the doorknob, and push the door away from you.\n"
                                  "It locks into the door frame with a thud.\n"
-                                 "As you let go of the doorknob, it springs back into the locked position with a click.")
+                                 "As you let go of the doorknob, it springs back into the locked position with a click.\n"
+                                 "It is now closed.")
                             mapCord[y][x][0] *= -1
-                        elif mapCord[y][x][0]==2:
+                        elif mapCord[y][x][0] == 2:
                             res=("You grab the doorknob, and twist it to the right.\n"
                                  "The door unlocks as you pull it towards your body.\n"
                                  "It is now open.")
