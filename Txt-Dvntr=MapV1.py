@@ -1,7 +1,7 @@
 #MADE BY DAVID TRAN
 import math
 
-char0 = [4, 1, 2, 1, 1] # [character determiner, x, y, direction(1=N,2=E,3=S,4=W), room]
+char0 = [4, 2, 2, 1, 1] # [character determiner, x, y, direction(1=N,2=E,3=S,4=W), room]
 
 cord = [[[1.0, ""], [1.0, ""], [1.0, ""], [1.0, ""], [1.0, ""]], #List of coordinates for the map
         [[1.0, ""], [7.0, ""], [3.1, ""], [0.0, ""], [2.0, ""]],
