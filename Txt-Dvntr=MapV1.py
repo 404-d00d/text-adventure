@@ -213,6 +213,8 @@ while char0[4]!=2:
         char0[4]=2
     else:
         printDisplay(chars, cord)
+        print(res)
+        res = ""
         print("You are in a bathroom.\n"
               "It is brightly lit by flourescent light tubes placed up on the tan ceiling, emmiting harsh light.\n"
               "The smell of lavender and soap permeates the room.\n"
