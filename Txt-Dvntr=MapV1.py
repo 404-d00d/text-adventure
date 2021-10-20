@@ -14,6 +14,8 @@ chars = [char0]
 
 act = ""
 
+res = ""
+
 def representOb(mapCord, x, y):
     if math.floor(mapCord[y][x][0])==1:
         return "N"
@@ -111,6 +113,7 @@ def moveCharacter(character, mapCord, z):
         character[2] += (y1*-1)
 
 def interactObj(character, mapCord):
+    global res
     inp = ""
     x1 = 0
     y1 = 0
