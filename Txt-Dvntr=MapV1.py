@@ -1,9 +1,9 @@
-#MADE BY DAVID TRAN
+# MADE BY DAVID TRAN
 import math
 
-char0 = [4, 2, 2, 1, 1] # [character determiner, x, y, direction(1=N,2=E,3=S,4=W), room]
+char0 = [4, 2, 2, 1, 1]  # [character determiner, x, y, direction(1=N,2=E,3=S,4=W), room]
 
-cord = [[[1.0, ""], [1.0, ""], [1.0, ""], [1.0, ""], [1.0, ""]], #List of coordinates for the map
+cord = [[[1.0, ""], [1.0, ""], [1.0, ""], [1.0, ""], [1.0, ""]],  # List of coordinates for the map
         [[1.0, ""], [7.0, ""], [3.1, ""], [0.0, ""], [2.0, ""]],
         [[1.0, ""], [0.0, ""], [0.0, ""], [0.0, ""], [1.0, ""]],
         [[1.0, ""], [0.0, ""], [0.0, ""], [0.0, ""], [1.0, ""]],
@@ -16,55 +16,59 @@ act = ""
 
 res = ""
 
+
 def representOb(mapCord, x, y):
-    if math.floor(mapCord[y][x][0])==1:
+    if math.floor(mapCord[y][x][0]) == 1:
         return "N"
-    elif math.floor(mapCord[y][x][0])==3:
+    elif math.floor(mapCord[y][x][0]) == 3:
         return "A"
-    elif math.floor(mapCord[y][x][0])==6:
+    elif math.floor(mapCord[y][x][0]) == 6:
         return "0"
-    elif math.floor(mapCord[y][x][0])==2:
+    elif math.floor(mapCord[y][x][0]) == 2:
         return "|"
-    elif math.floor(mapCord[y][x][0])==5:
+    elif math.floor(mapCord[y][x][0]) == 5:
         return "T"
-    elif math.floor(mapCord[y][x][0])==7:
+    elif math.floor(mapCord[y][x][0]) == 7:
         return "Q"
-    elif math.floor(mapCord[y][x][0])==-2:
+    elif math.floor(mapCord[y][x][0]) == -2:
         return "_"
     else:
         return "."
 
+
 def printChar(characters):
     for x in range(len(characters)):
-        if characters[x][0]==4:
-            if characters[x][3]==1:
+        if characters[x][0] == 4:
+            if characters[x][3] == 1:
                 return "^"
-            elif characters[x][3]==2:
+            elif characters[x][3] == 2:
                 return ">"
-            elif characters[x][3]==3:
+            elif characters[x][3] == 3:
                 return "v"
-            elif characters[x][3]==4:
+            elif characters[x][3] == 4:
                 return "<"
+
 
 def printDisplay(characters, mapCord):
     for y in range(len(mapCord)):
         for x in range(len(mapCord[0])):
             charac = False
-            if x == len(mapCord[0])-1:
+            if x == len(mapCord[0]) - 1:
                 for z in range(len(characters)):
-                    if characters[z][1]==x and characters[z][2]==y:
+                    if characters[z][1] == x and characters[z][2] == y:
                         print(printChar(characters))
                         charac = True
                 if not charac:
                     print(representOb(mapCord, x, y))
             else:
                 for z in range(len(characters)):
-                    if characters[z][1]==x and characters[z][2]==y:
+                    if characters[z][1] == x and characters[z][2] == y:
                         print(printChar(characters), end=" ")
                         charac = True
                 if not charac:
                     print(representOb(mapCord, x, y), end=" ")
     print("-----")
+
 
 def moveCharacter(character, mapCord, z):
     x1 = 0
@@ -81,58 +85,63 @@ def moveCharacter(character, mapCord, z):
             character[3] -= 1
             if character[3] == 0:
                 character[3] = 4
-    elif (z == "w" and character[3] == 1) or (z == "d" and character[3] == 4) or (z == "s" and character[3] == 3) or (z == "a" and character[3] == 2):
+    elif (z == "w" and character[3] == 1) or (z == "d" and character[3] == 4) or (z == "s" and character[3] == 3) or (
+            z == "a" and character[3] == 2):
         x1 = 0
         y1 = -1
-    elif (z == "w" and character[3] == 2) or (z == "d" and character[3] == 1) or (z == "s" and character[3] == 4) or (z == "a" and character[3] == 3):
+    elif (z == "w" and character[3] == 2) or (z == "d" and character[3] == 1) or (z == "s" and character[3] == 4) or (
+            z == "a" and character[3] == 3):
         x1 = 1
         y1 = 0
-    elif (z == "w" and character[3] == 3) or (z == "d" and character[3] == 2) or (z == "s" and character[3] == 1) or (z == "a" and character[3] == 4):
+    elif (z == "w" and character[3] == 3) or (z == "d" and character[3] == 2) or (z == "s" and character[3] == 1) or (
+            z == "a" and character[3] == 4):
         x1 = 0
         y1 = 1
-    elif (z == "w" and character[3] == 4) or (z == "d" and character[3] == 3) or (z == "s" and character[3] == 2) or (z == "a" and character[3] == 1):
+    elif (z == "w" and character[3] == 4) or (z == "d" and character[3] == 3) or (z == "s" and character[3] == 2) or (
+            z == "a" and character[3] == 1):
         x1 = -1
         y1 = 0
     character[1] += x1
     character[2] += y1
     for y in range(len(mapCord)):
         for x in range(len(mapCord[0])):
-            if character[1]==x and character[2]==y and mapCord[y][x][0]>0:
-                character[1] += (x1*-1)
-                character[2] += (y1*-1)
+            if character[1] == x and character[2] == y and mapCord[y][x][0] > 0:
+                character[1] += (x1 * -1)
+                character[2] += (y1 * -1)
     for y in range(len(mapCord)):
         for x in range(len(mapCord[0])):
-            if mapCord[y][x][0]<=0:
+            if mapCord[y][x][0] <= 0:
                 w += 1
     for y in range(len(mapCord)):
         for x in range(len(mapCord[0])):
-            if (character[1]!=x or character[2]!=y) and mapCord[y][x][0]<=0:
+            if (character[1] != x or character[2] != y) and mapCord[y][x][0] <= 0:
                 v += 1
     if w == v:
-        character[1] += (x1*-1)
-        character[2] += (y1*-1)
+        character[1] += (x1 * -1)
+        character[2] += (y1 * -1)
+
 
 def interactObj(character, mapCord):
     global res
     inp = ""
     x1 = 0
     y1 = 0
-    if character[3]==1:
+    if character[3] == 1:
         x1 = 0
         y1 = -1
-    elif character[3]==2:
+    elif character[3] == 2:
         x1 = 1
         y1 = 0
-    elif character[3]==3:
+    elif character[3] == 3:
         x1 = 0
         y1 = 1
-    elif character[3]==4:
+    elif character[3] == 4:
         x1 = -1
         y1 = 0
     for y in range(len(mapCord)):
         for x in range(len(mapCord[0])):
-            if character[1]+x1 == x and character[2]+y1 == y:
-                if math.floor(mapCord[y][x][0])==3:
+            if character[1] + x1 == x and character[2] + y1 == y:
+                if math.floor(mapCord[y][x][0]) == 3:
                     print("You see a toilet.\n"
                           "It is porcelain white, with no blemishes or marks on the body.\n"
                           "The tank lid and tank of the toilet appear to be bolted to the toilet basin and the wall itself.\n"
@@ -159,10 +168,10 @@ def interactObj(character, mapCord):
                         print("You push down on the toilet handle on the tank.\n"
                               "You hear the sound of water flowing into the toilet bowl, followed by the sound of water rushing down the pipes.\n"
                               "It's eventually followed by the rush of water back into the toilet basin.")
-                        mapCord[y][x][0]=3
+                        mapCord[y][x][0] = 3
                     else:
                         print("You do nothing.")
-                elif abs(mapCord[y][x][0])==2:
+                elif abs(mapCord[y][x][0]) == 2:
                     print("You see a door.\n"
                           "It is chalk-white, with a grayish trim around the edges of the door.\n"
                           "The doorknob is to the center-right of the door itself, and is brass colored.\n"
@@ -172,18 +181,19 @@ def interactObj(character, mapCord):
                     inp = input(": ")
                     if inp == "1":
                         if mapCord[y][x][0] == -2:
-                            res=("You grab the doorknob, and push the door away from you.\n"
-                                 "It locks into the door frame with a thud.\n"
-                                 "As you let go of the doorknob, it springs back into the locked position with a click.\n"
-                                 "It is now closed.")
+                            res = ("You grab the doorknob, and push the door away from you.\n"
+                                   "It locks into the door frame with a thud.\n"
+                                   "As you let go of the doorknob, it springs back into the locked position with a click.\n"
+                                   "It is now closed.")
                             mapCord[y][x][0] *= -1
                         elif mapCord[y][x][0] == 2:
-                            res=("You grab the doorknob, and twist it to the right.\n"
-                                 "The door unlocks as you pull it towards your body.\n"
-                                 "It is now open.")
+                            res = ("You grab the doorknob, and twist it to the right.\n"
+                                   "The door unlocks as you pull it towards your body.\n"
+                                   "It is now open.")
                             mapCord[y][x][0] *= -1
                     else:
-                        res=("You do nothing.")
+                        res = ("You do nothing.")
+
 
 def gamePlay(action):
     for a in range(len(act)):
@@ -204,13 +214,13 @@ def gamePlay(action):
         else:
             print("ERROR: Not a valid command")
 
-            
+
 print("You wake up, and find yourself on the floor, laying on your back.\n"
       "You blink rapidly, and soon push yourself off the ground, and stand upright, your drowsiness fading as quickly as your woke up.")
 
-while char0[4]!=2:
-    if char0[1]==4 and char0[2]==1:
-        char0[4]=2
+while char0[4] != 2:
+    if char0[1] == 4 and char0[2] == 1:
+        char0[4] = 2
     else:
         printDisplay(chars, cord)
         print(res)
@@ -224,7 +234,7 @@ while char0[4]!=2:
               "Much like the walls, there are no blemishes or marks on the floor.")
         act = input("COMMAND: ")
         gamePlay(act)
-        
+
 print("You leave the bathroom.\n"
       "CONGRATULATIONS. YOU HAVE BEATEN THE GAME")
 act = input("Press ENTER to exit.")
