@@ -176,10 +176,15 @@ def interactObj(character, mapCord):
                           "It is chalk-white, with a grayish trim around the edges of the door.\n"
                           "The doorknob is to the center-right of the door itself, and is brass colored.\n"
                           "It is clean and has no dust or dirt on it.")
-                    print("1. Interact\n"
+                    print("1. Look Closer\n"
+                          "2. Interact\n"
                           "Any Other Option. Do Nothing")
                     inp = input(": ")
                     if inp == "1":
+                        res = ("The paint on the door appears to be a recent coat.\n"
+                               "There is some noticable grain on the door, along with tiny bumps on the door.\n"
+                               "The doorknob has fingerprint marks on it, from constant usage of staff and guests in the room.")
+                    elif inp == "2":
                         if mapCord[y][x][0] == -2:
                             res = ("You grab the doorknob, and push the door away from you.\n"
                                    "It locks into the door frame with a thud.\n"
