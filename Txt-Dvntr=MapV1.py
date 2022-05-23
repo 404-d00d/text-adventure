@@ -17,7 +17,7 @@ act = ""
 res = ""
 
 
-def representOb(mapCord, x, y):
+def representOb(mapCord, x, y): # governs object display on game map
     if math.floor(mapCord[y][x][0]) == 1:
         return "N"
     elif math.floor(mapCord[y][x][0]) == 3:
@@ -36,7 +36,7 @@ def representOb(mapCord, x, y):
         return "."
 
 
-def printChar(characters):
+def printChar(characters): # governs player character/direction they face
     for x in range(len(characters)):
         if characters[x][0] == 4:
             if characters[x][3] == 1:
@@ -49,19 +49,19 @@ def printChar(characters):
                 return "<"
 
 
-def printDisplay(characters, mapCord):
+def printDisplay(characters, mapCord): # prints out objects and characters in map
     for y in range(len(mapCord)):
         for x in range(len(mapCord[0])):
             charac = False
-            if x == len(mapCord[0]) - 1:
-                for z in range(len(characters)):
+            if x == len(mapCord[0]) - 1: # checks if print reaches end of line, switches to new line/properly prints out spaces
+                for z in range(len(characters)): # checks if current block is a player character
                     if characters[z][1] == x and characters[z][2] == y:
                         print(printChar(characters))
                         charac = True
                 if not charac:
                     print(representOb(mapCord, x, y))
             else:
-                for z in range(len(characters)):
+                for z in range(len(characters)): # checks if current block is a player character
                     if characters[z][1] == x and characters[z][2] == y:
                         print(printChar(characters), end=" ")
                         charac = True
@@ -70,45 +70,45 @@ def printDisplay(characters, mapCord):
     print("-----")
 
 
-def moveCharacter(character, mapCord, z):
+def moveCharacter(character, mapCord, z): # governs how to move the character
     x1 = 0
     y1 = 0
     w = 0
     v = 0
-    if z == "e":
+    if z == "e": # turns right
         if character[3] <= 4:
             character[3] += 1
             if character[3] == 5:
                 character[3] = 1
-    elif z == "q":
+    elif z == "q": # turns left
         if character[3] >= 1:
             character[3] -= 1
             if character[3] == 0:
                 character[3] = 4
     elif (z == "w" and character[3] == 1) or (z == "d" and character[3] == 4) or (z == "s" and character[3] == 3) or (
-            z == "a" and character[3] == 2):
+            z == "a" and character[3] == 2): # move forward
         x1 = 0
         y1 = -1
     elif (z == "w" and character[3] == 2) or (z == "d" and character[3] == 1) or (z == "s" and character[3] == 4) or (
-            z == "a" and character[3] == 3):
+            z == "a" and character[3] == 3): # move right
         x1 = 1
         y1 = 0
     elif (z == "w" and character[3] == 3) or (z == "d" and character[3] == 2) or (z == "s" and character[3] == 1) or (
-            z == "a" and character[3] == 4):
+            z == "a" and character[3] == 4): # move backward
         x1 = 0
         y1 = 1
     elif (z == "w" and character[3] == 4) or (z == "d" and character[3] == 3) or (z == "s" and character[3] == 2) or (
-            z == "a" and character[3] == 1):
+            z == "a" and character[3] == 1): # move left
         x1 = -1
         y1 = 0
-    character[1] += x1
+    character[1] += x1 # apply movement to character
     character[2] += y1
-    for y in range(len(mapCord)):
+    for y in range(len(mapCord)): # makes sure player doesn't run into a wall
         for x in range(len(mapCord[0])):
             if character[1] == x and character[2] == y and mapCord[y][x][0] > 0:
                 character[1] += (x1 * -1)
                 character[2] += (y1 * -1)
-    for y in range(len(mapCord)):
+    for y in range(len(mapCord)): # counts number of empty spaces, prevents character from leaving map
         for x in range(len(mapCord[0])):
             if mapCord[y][x][0] <= 0:
                 w += 1
@@ -116,7 +116,7 @@ def moveCharacter(character, mapCord, z):
         for x in range(len(mapCord[0])):
             if (character[1] != x or character[2] != y) and mapCord[y][x][0] <= 0:
                 v += 1
-    if w == v:
+    if w == v: # if spaces before and after equal each other, move player back to start
         character[1] += (x1 * -1)
         character[2] += (y1 * -1)
 
@@ -126,7 +126,7 @@ def interactObj(character, mapCord):
     inp = ""
     x1 = 0
     y1 = 0
-    if character[3] == 1:
+    if character[3] == 1: # checks space where character is facing
         x1 = 0
         y1 = -1
     elif character[3] == 2:
