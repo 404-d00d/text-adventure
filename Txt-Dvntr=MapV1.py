@@ -1,5 +1,7 @@
 # MADE BY DAVID TRAN
 import math
+import os
+import platform
 
 char0 = [4, 2, 2, 1, 1]  # [character determiner, x, y, direction(1=N,2=E,3=S,4=W), room]
 
@@ -16,6 +18,12 @@ act = ""
 
 res = ""
 
+# Clears terminal window so interface looks clean.
+def clearScreen():
+    if platform.system() == "Windows":
+        os.system('cls')
+    else:
+        os.system('clear')
 
 def representOb(mapCord, x, y): # governs object display on game map
     if math.floor(mapCord[y][x][0]) == 1:
@@ -221,12 +229,13 @@ def gamePlay(action):
 
 
 print("You wake up, and find yourself on the floor, laying on your back.\n"
-      "You blink rapidly, and soon push yourself off the ground, and stand upright, your drowsiness fading as quickly as your woke up.")
+      "You blink rapidly, and soon push yourself off the ground, and stand upright, your drowsiness fading as quickly as your woke up.\n")
 
 while char0[4] != 2:
     if char0[1] == 4 and char0[2] == 1:
         char0[4] = 2
     else:
+        clearScreen()
         printDisplay(chars, cord)
         print(res)
         res = ""
@@ -239,6 +248,7 @@ while char0[4] != 2:
               "Much like the walls, there are no blemishes or marks on the floor.")
         act = input("COMMAND: ")
         gamePlay(act)
+
 
 print("You leave the bathroom.\n"
       "CONGRATULATIONS. YOU HAVE BEATEN THE GAME")
