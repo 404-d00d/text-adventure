@@ -208,7 +208,7 @@ def interactObj(character, mapCord):
                         res = ("You do nothing.")
 
 
-def gamePlay(action):
+def gamePlay(act):
     for a in range(len(act)):
         if act[a] == "e":
             moveCharacter(char0, cord, "e")
