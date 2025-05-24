@@ -12,11 +12,35 @@ cord = [[[1.0, ""], [1.0, ""], [1.0, ""], [1.0, ""], [1.0, ""]],  # List of coor
         [[1.0, ""], [0.0, ""], [0.0, ""], [0.0, ""], [1.0, ""]],
         [[1.0, ""], [1.0, ""], [6.0, ""], [1.0, ""], [1.0, ""]]]
 
+cord1 = [[[1.0, ""], [1.0, ""], [1.0, ""]],  # List of coordinates for the map
+        [[2.0, ""], [0.0, ""], [3.1, ""]],
+        [[1.0, ""], [0.0, ""], [1.0, ""]],
+        [[1.0, ""], [0.0, ""], [1.0, ""]],
+        [[1.0, ""], [0.0, ""], [1.0, ""]],
+        [[1.0, ""], [0.0, ""], [1.0, ""]],
+        [[1.0, ""], [0.0, ""], [1.0, ""]],
+        [[1.0, ""], [0.0, ""], [1.0, ""]],
+        [[1.0, ""], [0.0, ""], [1.0, ""]],
+        [[1.0, ""], [0.0, ""], [2.0, ""]],
+        [[1.0, ""], [1.0, ""], [1.0, ""]]]
+
 chars = [char0]
+
+maps = [cord, cord1]
 
 act = ""
 
 res = ""
+
+# handles direction regarding character movement
+def charDirection(direction):
+    x1, y1 = {
+        1: (0, -1),  # N
+        2: (1, 0),   # E
+        3: (0, 1),   # S
+        4: (-1, 0),  # W
+    }[direction]
+    return x1, y1
 
 # Clears terminal window so interface looks clean.
 def clearScreen():
@@ -25,37 +49,46 @@ def clearScreen():
     else:
         os.system('clear')
 
-def representOb(mapCord, x, y): # governs object display on game map
-    if math.floor(mapCord[y][x][0]) == 1:
-        return "N"
-    elif math.floor(mapCord[y][x][0]) == 3:
-        return "A"
-    elif math.floor(mapCord[y][x][0]) == 6:
-        return "0"
-    elif math.floor(mapCord[y][x][0]) == 2:
-        return "|"
-    elif math.floor(mapCord[y][x][0]) == 5:
-        return "T"
-    elif math.floor(mapCord[y][x][0]) == 7:
-        return "Q"
-    elif math.floor(mapCord[y][x][0]) == -2:
-        return "_"
-    else:
-        return "."
+# dictionary for how map is represented
+def representOb(mapCord, x, y):
+    tile = math.floor(mapCord[y][x][0])
+    symbolMap = {
+        1: "N",   # wall
+        3: "A",   # toilet
+        6: "0",   # mirror
+        2: "|",   # closed door
+        7: "Q",   # sink
+        -2: "_",  # open door
+        0: "."    # empty space
+    }
+    return symbolMap.get(tile, " ") # if no number matches the dictionary return a blank space.
 
 
 def printChar(characters): # governs player character/direction they face
-    for x in range(len(characters)):
-        if characters[x][0] == 4:
-            if characters[x][3] == 1:
-                return "^"
-            elif characters[x][3] == 2:
-                return ">"
-            elif characters[x][3] == 3:
-                return "v"
-            elif characters[x][3] == 4:
-                return "<"
-
+    if characters[0] == 4:
+        playerChar = {
+            1: "^",
+            2: ">",
+            3: "v",
+            4: "<"
+        }[characters[3]]
+        return playerChar
+    elif characters[0] == 3:
+        otherChar = {
+            1: "M",
+            2: "3",
+            3: "W",
+            4: "E"
+        }[characters[3]]
+        return otherChar
+    elif characters[0] == 2:
+        otherChar2 = {
+            1: "n",
+            2: "ↄ",
+            3: "u",
+            4: "c"
+        }[characters[3]]
+        return otherChar2
 
 def printDisplay(characters, mapCord): # prints out objects and characters in map
     for y in range(len(mapCord)):
@@ -64,88 +97,61 @@ def printDisplay(characters, mapCord): # prints out objects and characters in ma
             if x == len(mapCord[0]) - 1: # checks if print reaches end of line, switches to new line/properly prints out spaces
                 for z in range(len(characters)): # checks if current block is a player character
                     if characters[z][1] == x and characters[z][2] == y:
-                        print(printChar(characters))
+                        print(printChar(characters[z]))
                         charac = True
                 if not charac:
                     print(representOb(mapCord, x, y))
             else:
                 for z in range(len(characters)): # checks if current block is a player character
                     if characters[z][1] == x and characters[z][2] == y:
-                        print(printChar(characters), end=" ")
+                        print(printChar(characters[z]), end=" ")
                         charac = True
                 if not charac:
                     print(representOb(mapCord, x, y), end=" ")
     print("-----")
 
+# moves character
+def moveCharacter(character, mapCord, command):
+    # Step 1: Rotate character
+    if command == "e":  # turn right
+        character[3] = (character[3] % 4) + 1
+        return
+    elif command == "q":  # turn left
+        character[3] = 4 if character[3] == 1 else character[3] - 1
+        return
 
-def moveCharacter(character, mapCord, z): # governs how to move the character
-    x1 = 0
-    y1 = 0
-    w = 0
-    v = 0
-    if z == "e": # turns right
-        if character[3] <= 4:
-            character[3] += 1
-            if character[3] == 5:
-                character[3] = 1
-    elif z == "q": # turns left
-        if character[3] >= 1:
-            character[3] -= 1
-            if character[3] == 0:
-                character[3] = 4
-    elif (z == "w" and character[3] == 1) or (z == "d" and character[3] == 4) or (z == "s" and character[3] == 3) or (
-            z == "a" and character[3] == 2): # move forward
-        x1 = 0
-        y1 = -1
-    elif (z == "w" and character[3] == 2) or (z == "d" and character[3] == 1) or (z == "s" and character[3] == 4) or (
-            z == "a" and character[3] == 3): # move right
-        x1 = 1
-        y1 = 0
-    elif (z == "w" and character[3] == 3) or (z == "d" and character[3] == 2) or (z == "s" and character[3] == 1) or (
-            z == "a" and character[3] == 4): # move backward
-        x1 = 0
-        y1 = 1
-    elif (z == "w" and character[3] == 4) or (z == "d" and character[3] == 3) or (z == "s" and character[3] == 2) or (
-            z == "a" and character[3] == 1): # move left
-        x1 = -1
-        y1 = 0
-    character[1] += x1 # apply movement to character
-    character[2] += y1
-    for y in range(len(mapCord)): # makes sure player doesn't run into a wall
-        for x in range(len(mapCord[0])):
-            if character[1] == x and character[2] == y and mapCord[y][x][0] > 0:
-                character[1] += (x1 * -1)
-                character[2] += (y1 * -1)
-    for y in range(len(mapCord)): # counts number of empty spaces, prevents character from leaving map
-        for x in range(len(mapCord[0])):
-            if mapCord[y][x][0] <= 0:
-                w += 1
-    for y in range(len(mapCord)):
-        for x in range(len(mapCord[0])):
-            if (character[1] != x or character[2] != y) and mapCord[y][x][0] <= 0:
-                v += 1
-    if w == v: # if spaces before and after equal each other, move player back to start
-        character[1] += (x1 * -1)
-        character[2] += (y1 * -1)
+    # Step 2: Determine movement vector based on command and direction
+    forwardMap = {
+        'w': 0,
+        'a': 3,
+        's': 2,
+        'd': 1
+    }
+    if command not in forwardMap:
+        return  # invalid movement key
 
+    # Rotate direction to get movement vector
+    direction = character[3]
+    offset = (forwardMap[command] + direction - 1) % 4 + 1
 
+    dx, dy = charDirection(offset)
+
+    # Step 3: Calculate new position
+    newX = character[1] + dx
+    newY = character[2] + dy
+
+    # Step 4: Check boundaries
+    if 0 <= newY < len(mapCord) and 0 <= newX < len(mapCord[0]):
+        # Step 5: Check for passable tile
+        if mapCord[newY][newX][0] <= 0:
+            character[1] = newX
+            character[2] = newY
+
+# governs character interactions with objects and how objects are modified
 def interactObj(character, mapCord):
     global res
     inp = ""
-    x1 = 0
-    y1 = 0
-    if character[3] == 1: # checks space where character is facing
-        x1 = 0
-        y1 = -1
-    elif character[3] == 2:
-        x1 = 1
-        y1 = 0
-    elif character[3] == 3:
-        x1 = 0
-        y1 = 1
-    elif character[3] == 4:
-        x1 = -1
-        y1 = 0
+    x1, y1 = charDirection(character[3])
     for y in range(len(mapCord)):
         for x in range(len(mapCord[0])):
             if character[1] + x1 == x and character[2] + y1 == y:
@@ -156,6 +162,7 @@ def interactObj(character, mapCord):
                           "The toilet lid and toilet basin are white and clean as the rest of the toilet.\n"
                           "The toilet is shiny, reflecting the light from the celing light tubes.\n"
                           "The toilet lid is closed.")
+                    print("-----")
                     print("1. Look Closer\n"
                           "2. Interact\n"
                           "Any Other Option. Do Nothing")
@@ -184,6 +191,7 @@ def interactObj(character, mapCord):
                           "It is chalk-white, with a grayish trim around the edges of the door.\n"
                           "The doorknob is to the center-right of the door itself, and is brass colored.\n"
                           "It is clean and has no dust or dirt on it.")
+                    print("-----")
                     print("1. Look Closer\n"
                           "2. Interact\n"
                           "Any Other Option. Do Nothing")
@@ -209,47 +217,57 @@ def interactObj(character, mapCord):
 
 
 def gamePlay(act):
-    for a in range(len(act)):
-        if act[a] == "e":
-            moveCharacter(char0, cord, "e")
-        elif act[a] == "q":
-            moveCharacter(char0, cord, "q")
-        elif act[a] == "w":
-            moveCharacter(char0, cord, "w")
-        elif act[a] == "s":
-            moveCharacter(char0, cord, "s")
-        elif act[a] == "a":
-            moveCharacter(char0, cord, "a")
-        elif act[a] == "d":
-            moveCharacter(char0, cord, "d")
-        elif act[a] == "f":
-            interactObj(char0, cord)
+    global res
+    commandHandlers = {
+        "e": lambda: moveCharacter(char0, cord, "e"),
+        "q": lambda: moveCharacter(char0, cord, "q"),
+        "w": lambda: moveCharacter(char0, cord, "w"),
+        "a": lambda: moveCharacter(char0, cord, "a"),
+        "s": lambda: moveCharacter(char0, cord, "s"),
+        "d": lambda: moveCharacter(char0, cord, "d"),
+        "f": lambda: interactObj(char0, cord),
+    }
+
+    for a in act:
+        handler = commandHandlers.get(a)
+        if handler:
+            handler()
         else:
-            print("ERROR: Not a valid command")
+            res = "ERROR: Not a valid command"
+
+def main():
+    clearScreen()
+    global res
+
+    print("You wake up, and find yourself on the floor, laying on your back.\n"
+          "You blink rapidly, and soon push yourself off the ground, and stand upright, your drowsiness fading as quickly as you woke up.\n")
+
+    pauser = input()
 
 
-print("You wake up, and find yourself on the floor, laying on your back.\n"
-      "You blink rapidly, and soon push yourself off the ground, and stand upright, your drowsiness fading as quickly as your woke up.\n")
+    while char0[4] != 3:
+        if char0[1] == 4 and char0[2] == 1:
+            char0[4] = 3
+        #elif char0[1] == 0 and char0[2] == 1:
+        else:
+            clearScreen()
+            printDisplay(chars, maps[0])
+            print(res)
+            res = ""
+            print("-----")
+            print("You are in a bathroom.\n"
+                  "It is brightly lit by flourescent light tubes placed up on the tan ceiling, emmiting harsh light.\n"
+                  "The smell of lavender and soap permeates the room.\n"
+                  "A toilet, sink and mirror, shower-stall, and bathtub are inside the room.\n"
+                  "The wall is pure white, with no blemishes and marks on it.\n"
+                  "The floor is tiled tan and white, alternating between each color every row.\n"
+                  "Much like the walls, there are no blemishes or marks on the floor.")
+            act = input("COMMAND: ")
+            gamePlay(act)
 
-while char0[4] != 2:
-    if char0[1] == 4 and char0[2] == 1:
-        char0[4] = 2
-    else:
-        clearScreen()
-        printDisplay(chars, cord)
-        print(res)
-        res = ""
-        print("You are in a bathroom.\n"
-              "It is brightly lit by flourescent light tubes placed up on the tan ceiling, emmiting harsh light.\n"
-              "The smell of lavender and soap permeates the room.\n"
-              "A toilet, sink and mirror, shower-stall, and bathtub are inside the room.\n"
-              "The wall is pure white, with no blemishes and marks on it.\n"
-              "The floor is tiled tan and white, alternating between each color every row.\n"
-              "Much like the walls, there are no blemishes or marks on the floor.")
-        act = input("COMMAND: ")
-        gamePlay(act)
 
+    print("You leave the bathroom.\n"
+          "CONGRATULATIONS. YOU HAVE BEATEN THE GAME")
+    act = input("Press ENTER to exit.")
 
-print("You leave the bathroom.\n"
-      "CONGRATULATIONS. YOU HAVE BEATEN THE GAME")
-act = input("Press ENTER to exit.")
+main()
