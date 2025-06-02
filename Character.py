@@ -7,6 +7,7 @@ class Character:
 		self.y = y
 		self.direction = direction
 		self.room = room
+		self.inventory = []
 
 	def getID(self):
 		return self.id
@@ -76,6 +77,6 @@ class Character:
 		# Step 4: Check boundaries
 		if 0 <= newY < len(mapCord) and 0 <= newX < len(mapCord[0]):
 			# Step 5: Check for passable tile
-			if mapCord[newY][newX][0] <= 0:
+			if mapCord[newY][newX].getID() <= 0:
 				self.x = newX
 				self.y = newY

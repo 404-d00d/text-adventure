@@ -11,8 +11,8 @@ class Display:
 	        os.system('clear')
 
 	# dictionary for how map is represented
-	def representOb(self, mapCord, x, y):
-	    tile = math.floor(mapCord[y][x][0])
+	def representOb(self, mapObject):
+	    tile = math.floor(mapObject.getID())
 	    symbolMap = {
 	        1: "N",   # wall
 	        3: "A",   # toilet
@@ -60,12 +60,12 @@ class Display:
 	                        print(self.printChar(characters[z]))
 	                        charac = True
 	                if not charac:
-	                    print(self.representOb(mapCord, x, y))
+	                    print(self.representOb(mapCord[y][x]))
 	            else:
 	                for z in range(len(characters)): # checks if current block is a player character
 	                    if characters[z].getX() == x and characters[z].getY() == y:
 	                        print(self.printChar(characters[z]), end=" ")
 	                        charac = True
 	                if not charac:
-	                    print(self.representOb(mapCord, x, y), end=" ")
+	                    print(self.representOb(mapCord[y][x]), end=" ")
 	    print("-----")

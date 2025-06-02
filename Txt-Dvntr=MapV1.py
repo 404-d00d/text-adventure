@@ -1,30 +1,43 @@
 # MADE BY DAVID TRAN
+
+# must import all of these in order for the text game to work properly
 from Character import Character
 from Display import Display
 from Gameplay import Gameplay
+from WorldObject import WorldObject
+from Doors import Door, LockedDoor
+from Toilet import Toilet
 
 playerCharacter = Character(0, 2, 2, 1, 1)
 display = Display()
 gamePlay = Gameplay()
 
-cord = [[[1.0, ""], [1.0, ""], [1.0, ""], [1.0, ""], [1.0, ""]],  # List of coordinates for the map
-		[[1.0, ""], [7.0, ""], [3.1, ""], [0.0, ""], [2.0, ""]],
-		[[1.0, ""], [0.0, ""], [0.0, ""], [0.0, ""], [1.0, ""]],
-		[[1.0, ""], [0.0, ""], [0.0, ""], [0.0, ""], [1.0, ""]],
-		[[1.0, ""], [0.0, ""], [0.0, ""], [0.0, ""], [1.0, ""]],
-		[[1.0, ""], [1.0, ""], [6.0, ""], [1.0, ""], [1.0, ""]]]
+space = WorldObject(0, [])
+wall = WorldObject(1, [])
+sink = WorldObject(7, [])
+mirror = WorldObject(6, [])
+door = Door([])
+door2 = Door([])
+toilet = Toilet([])
 
-cord1 = [[[1.0, ""], [1.0, ""], [1.0, ""]],  # List of coordinates for the map
-		[[2.0, ""], [0.0, ""], [1.0, ""]],
-		[[1.0, ""], [0.0, ""], [1.0, ""]],
-		[[1.0, ""], [0.0, ""], [1.0, ""]],
-		[[1.0, ""], [0.0, ""], [1.0, ""]],
-		[[1.0, ""], [0.0, ""], [1.0, ""]],
-		[[1.0, ""], [0.0, ""], [1.0, ""]],
-		[[1.0, ""], [0.0, ""], [1.0, ""]],
-		[[1.0, ""], [0.0, ""], [1.0, ""]],
-		[[1.0, ""], [0.0, ""], [2.0, ""]],
-		[[1.0, ""], [1.0, ""], [1.0, ""]]]
+cord = [[wall.createUnique([]), wall.createUnique([]), wall.createUnique([]), wall.createUnique([]), wall.createUnique([])],  # List of coordinates for the map
+		[wall.createUnique([]), space.createUnique([]), toilet, space.createUnique([]), door],
+		[wall.createUnique([]), space.createUnique([]), space.createUnique([]), space.createUnique([]), wall.createUnique([])],
+		[wall.createUnique([]), space.createUnique([]), space.createUnique([]), space.createUnique([]), wall.createUnique([])],
+		[wall.createUnique([]), space.createUnique([]), space.createUnique([]), space.createUnique(["key"]), wall.createUnique([])],
+		[wall.createUnique([]), wall.createUnique([]), wall.createUnique([]), wall.createUnique([]), wall.createUnique([])]]
+
+cord1 = [[wall.createUnique([]), wall.createUnique([]), wall.createUnique([])],  # List of coordinates for the map
+		[door, space.createUnique([]), wall.createUnique([])],
+		[wall.createUnique([]), space.createUnique([]), wall.createUnique([])],
+		[wall.createUnique([]), space.createUnique([]), wall.createUnique([])],
+		[wall.createUnique([]), space.createUnique([]), wall.createUnique([])],
+		[wall.createUnique([]), space.createUnique([]), wall.createUnique([])],
+		[wall.createUnique([]), space.createUnique([]), wall.createUnique([])],
+		[wall.createUnique([]), space.createUnique([]), wall.createUnique([])],
+		[wall.createUnique([]), space.createUnique([]), wall.createUnique([])],
+		[wall.createUnique([]), space.createUnique([]), door2],
+		[wall.createUnique([]), wall.createUnique([]), wall.createUnique([])]]
 
 characterList = [playerCharacter]
 
