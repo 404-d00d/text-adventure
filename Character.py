@@ -27,6 +27,12 @@ class Character:
 	def changeRoom(self, newRoomID):
 		self.room = newRoomID
 
+	def getInventory(self):
+		return self.inventory
+
+	def addItem(self, item):
+		self.inventory.append(item)
+
 	# only for setting the character positions when they move to the next room
 	def setX(self, newX):
 		self.x = newX
