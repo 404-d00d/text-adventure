@@ -12,7 +12,7 @@ class Display:
 		else:
 			os.system('clear')
 
-	# dictionary for how map is represented
+	# dictionary for how map is represented - values and symbols can be swapped depending on user preferences
 	def representOb(self, mapObject):
 		if mapObject.getID() > 0:
 			tile = math.floor(mapObject.getID())

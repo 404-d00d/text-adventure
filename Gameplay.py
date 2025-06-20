@@ -19,55 +19,47 @@ class Gameplay:
 		inp = ""
 		x1, y1 = character.charDirection(character.getDirection())
 		if 0 <= character.getX() + x1 < len(mapCord[0]) and 0 <= character.getY() + y1 < len(mapCord):
-			if math.floor(mapCord[character.getY() + y1][character.getX() + x1].getID()) == 3:
-				print(mapCord[character.getY() + y1][character.getX() + x1].showDescription())
-				print("-----")
-				print("1. Look Closer\n"
-					  "2. Interact\n"
-					  "Any Other Option. Do Nothing")
-				inp = input(": ")
-				if inp == "1":
-					if mapCord[character.getY() + y1][character.getX() + x1].getID() == 3:
-						self.result = ("You lift up the toilet lid.\n"
-							  "The bowl is clear and clean.\n"
-							  "The water in the bowl is transparent, letting you see the inside of the toilet bowl.\n"
-							  "Much like the outside of the toilet, the inside of the basin is white.")
-					elif mapCord[character.getY() + y1][character.getX() + x1].getID() == 3.1:
-						self.result = ("You lift up the toilet lid.\n"
-							  "The bowl is filled with water, chunks of food, and bile.\n"
-							  "The bile and food chunks float on the water's surface, and are mixed together cleanly.\n"
-							  "It's hard to tell what is bile and what are the food chunks.\n"
-							  "You immediately close the toilet lid, just to avoid adding more to that accursed pile.")
-				elif inp == "2":
-					self.result = ("You push down on the toilet handle on the tank.\n"
-						  "You hear the sound of water flowing into the toilet bowl, followed by the sound of water rushing down the pipes.\n"
-						  "It's eventually followed by the rush of water back into the toilet basin.")
-					mapCord[character.getY() + y1][character.getX() + x1].flushToilet()
-				else:
-					self.result = ("You do nothing.")
-			else:
-				print(mapCord[character.getY() + y1][character.getX() + x1].showDescription())
-				print(mapCord[character.getY() + y1][character.getX() + x1].showOptions())
-				inp = input(": ")
-				self.result = mapCord[character.getY() + y1][character.getX() + x1].interact(inp)
+			print(mapCord[character.getY() + y1][character.getX() + x1].showDescription())
+			print(mapCord[character.getY() + y1][character.getX() + x1].showOptions())
+			inp = input(": ")
+			self.result = mapCord[character.getY() + y1][character.getX() + x1].interact(inp, character)
 		else:
 			self.result = "You can't interact with this object."
+
+	def inventoryMenu(self, player):
+		selection = ""
+		while selection != "e":
+			try:
+				player.showInventory()
+				print("e: exit inventory")
+				selection = input("Choose your option: ")
+				selection = int(selection)
+				print(player.inventory[selection].getName())
+				print(player.inventory[selection].getDescription())
+			except (ValueError, IndexError):
+				print("This option is not valid.")
+
 
 	# for the player character actions only
 	def characterActions(self, act, mapCord, playerCharacter):
 		commandHandlers = {
-			"e": lambda: playerCharacter.moveCharacter(mapCord, "e"),
-			"q": lambda: playerCharacter.moveCharacter(mapCord, "q"),
-			"w": lambda: playerCharacter.moveCharacter(mapCord, "w"),
-			"a": lambda: playerCharacter.moveCharacter(mapCord, "a"),
-			"s": lambda: playerCharacter.moveCharacter(mapCord, "s"),
-			"d": lambda: playerCharacter.moveCharacter(mapCord, "d"),
+			"e": lambda: playerCharacter.moveCharacter(mapCord, "right"),
+			"q": lambda: playerCharacter.moveCharacter(mapCord, "left"),
+			"w": lambda: playerCharacter.moveCharacter(mapCord, "forward"),
+			"a": lambda: playerCharacter.moveCharacter(mapCord, "sideleft"),
+			"s": lambda: playerCharacter.moveCharacter(mapCord, "backward"),
+			"d": lambda: playerCharacter.moveCharacter(mapCord, "sideright"),
 			"f": lambda: self.interactObj(playerCharacter, mapCord),
+			"i": lambda: self.inventoryMenu(playerCharacter)
 		}
 
 		for a in act:
 			handler = commandHandlers.get(a)
 			if handler:
 				handler()
+				# due to the way commands are handled if someone interacts with an object - if the user has keys after the interact key then the interactions are overwritten by the not a valid command message
+				# this prevents the interaction response from being overwritten.
+				if a=="f":
+					break
 			else:
 				self.result = "ERROR: Not a valid command"

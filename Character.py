@@ -1,13 +1,13 @@
 class Character:
 	# id, x, y, direction, and room are ints
 	# 1 = N, 2 = E, 3 = S, 4 = W
-	def __init__(self, iD, x, y, direction, room):
+	def __init__(self, iD, x, y, direction, room, inventory):
 		self.id = iD
 		self.x = x
 		self.y = y
 		self.direction = direction
 		self.room = room
-		self.inventory = []
+		self.inventory = inventory
 
 	def getID(self):
 		return self.id
@@ -29,6 +29,15 @@ class Character:
 
 	def getInventory(self):
 		return self.inventory
+
+	def showInventory(self):
+		print("===")
+		print("PLAYER INVENTORY")
+		for x in range(len(self.inventory)):
+			print(str(x)+": "+str(self.inventory[x].getQuantity())+" "+self.inventory[x].getName())
+
+	def removeItem(self, item):
+		self.inventory.remove(item)
 
 	def addItem(self, item):
 		self.inventory.append(item)
@@ -53,19 +62,19 @@ class Character:
 	# moves character (either via rotation or movement)
 	def moveCharacter(self, mapCord, command):
 		# Step 1: Rotate character
-		if command == "e":  # turn right
+		if command == "right":  # turn right
 			self.direction = (self.direction % 4) + 1
 			return
-		elif command == "q":  # turn left
+		elif command == "left":  # turn left
 			self.direction = 4 if self.direction == 1 else self.direction - 1
 			return
 
 		# Step 2: Determine movement vector based on command and direction
 		forwardMap = {
-			'w': 0,
-			'a': 3,
-			's': 2,
-			'd': 1
+			'forward': 0,
+			'sideleft': 3,
+			'backward': 2,
+			'sideright': 1
 		}
 		if command not in forwardMap:
 			return  # invalid movement key

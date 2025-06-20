@@ -5,11 +5,12 @@ from Character import Character
 from Display import Display
 from Gameplay import Gameplay
 from WorldObject import WorldObject
-from Doors import Door, LockedDoor
+from Doors import Door, LockedDoor, CodeLockedDoor, KeyedLockedDoor
 from Toilet import Toilet
 from Map import Map
+from Item import Item, Key
 
-playerCharacter = Character(0, 2, 2, 1, 1)
+playerCharacter = Character(0, 2, 2, 1, 1, [])
 display = Display()
 gamePlay = Gameplay()
 
@@ -19,21 +20,27 @@ mapTransition1 = {(4, 1) : {2 : (1, 1)}}
 mapTransition2 = {(0, 1) : {1 : (3, 1)},
 				  (2, 9) : {3 : (0, 0)}}
 
-space = WorldObject(0, [], "", "", "")
-wall = WorldObject(1, [], "", "", "")
-sink = WorldObject(7, [], "", "", "")
-mirror = WorldObject(6, [], "", "", "")
+# items in the game
+key1 = Key("key", "Worn Door Key", "A key for a hotel room. It is very worn.", False, 12345)
+
+#playerCharacter.addItem(key1)
+
+# objects for the map
+space = WorldObject([], 0, "", "", "")
+wall = WorldObject([], 1, "", "", "")
+sink = WorldObject([], 7, "", "", "")
+mirror = WorldObject([], 6, "", "", "")
 vdoor = Door([], 2)
-vdoor2 = LockedDoor([], True, 2)
-hdoor = Door([], 4)
-toilet = Toilet([])
+vdoor2 = KeyedLockedDoor([], True, 12345, 2)
+hdoor = CodeLockedDoor([], True, "1492", 4)
+toilet = Toilet([], 3)
 
 cord = [[wall.createUnique([]), wall.createUnique([]), wall.createUnique([]), wall.createUnique([]), wall.createUnique([])],  # List of coordinates for the map
 		[wall.createUnique([]), space.createUnique([]), toilet, space.createUnique([]), vdoor],
+		[wall.createUnique([]), space.createUnique([]), space.createUnique([]), space.createUnique([key1]), wall.createUnique([])],
 		[wall.createUnique([]), space.createUnique([]), space.createUnique([]), space.createUnique([]), wall.createUnique([])],
 		[wall.createUnique([]), space.createUnique([]), space.createUnique([]), space.createUnique([]), wall.createUnique([])],
-		[wall.createUnique([]), space.createUnique([]), space.createUnique([]), space.createUnique(["key"]), wall.createUnique([])],
-		[wall.createUnique([]), space.createUnique([]), wall.createUnique([]), wall.createUnique([]), wall.createUnique([])]]
+		[wall.createUnique([]), wall.createUnique([]), wall.createUnique([]), wall.createUnique([]), wall.createUnique([])]]
 
 cord1 = [[wall.createUnique([]), hdoor, wall.createUnique([])],  # List of coordinates for the map
 		[vdoor, space.createUnique([]), wall.createUnique([])],
@@ -49,12 +56,7 @@ cord1 = [[wall.createUnique([]), hdoor, wall.createUnique([])],  # List of coord
 
 map1Desc = ("-----\n"
 				  "You are in a bathroom.\n"
-				  "It is brightly lit by flourescent light tubes placed up on the tan ceiling, emmiting harsh light.\n"
-				  "The smell of lavender and soap permeates the room.\n"
-				  "A toilet, sink and mirror, shower-stall, and bathtub are inside the room.\n"
-				  "The wall is pure white, with no blemishes and marks on it.\n"
-				  "The floor is tiled tan and white, alternating between each color every row.\n"
-				  "Much like the walls, there are no blemishes or marks on the floor.")
+				  "It is brightly lit and smells like lavender.")
 map2Desc = ("-----\n"
 				  "You are in a hallway.\n"
 				  "It is dull yellow and white and its odor is reminsicent of bleach.")
@@ -92,6 +94,8 @@ def main():
 		act = input("COMMAND: ")
 		gamePlay.characterActions(act, mapObjects.get(playerCharacter.getRoom()).getMap(), playerCharacter)
 
+		# when moving from room to room - turns are registered - not extra moves.
+		# fix this somehow
 		transitions = mapObjects.get(playerCharacter.getRoom()).getConnections()
 		dictValue = transitions.get((playerCharacter.getX(), playerCharacter.getY()))
 		if dictValue != None:
