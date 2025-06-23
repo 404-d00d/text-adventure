@@ -10,6 +10,7 @@ class WorldObject:
 					  "1. Look Closer\n"
 					  "2. Interact\n"
 					  "3. Show Inventory\n"
+					  "4. Add to Inventory\n"
 					  "Any Other Option. Do Nothing")
 
 	def getID(self):
@@ -36,6 +37,20 @@ class WorldObject:
 				print("This option is not valid.")
 		return ("You are done with this item")
 
+	def placeIntoInventory(self, player):
+		selection = ""
+		while selection != "e":
+			try:
+				player.showInventory()
+				print("e: exit inventory")
+				selection = input("Choose your option: ")
+				selection = int(selection)
+				print(player.getInventory()[selection].getName()+" is the item you put into the object")
+				self.inventory.append(player.showInventory()[selection])
+				player.removeItem(self.inventory[selection])
+			except (ValueError, IndexError):
+				print("This option is not valid.")
+		return ("You are done with this item")
 
 	def showDescription(self):
 		return self.description
@@ -53,6 +68,8 @@ class WorldObject:
 			return (self.interaction)
 		elif response == "3":
 			return (self.lootInventory(player))
+		elif response == "4":
+			return (self.placeIntoInventory(player))
 		else:
 			return ("You do nothing")
 

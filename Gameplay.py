@@ -15,9 +15,13 @@ class Gameplay:
 	def clearResult(self):
 		self.result = ""
 
-	def interactObj(self, character, mapCord):
+	# if infront is true that means it takes into account direction. if false then character loots space on top.
+	def interactObj(self, character, mapCord, inFront):
 		inp = ""
-		x1, y1 = character.charDirection(character.getDirection())
+		if inFront:
+			x1, y1 = character.charDirection(character.getDirection())
+		else:
+			x1, y1 = 0, 0
 		if 0 <= character.getX() + x1 < len(mapCord[0]) and 0 <= character.getY() + y1 < len(mapCord):
 			print(mapCord[character.getY() + y1][character.getX() + x1].showDescription())
 			print(mapCord[character.getY() + y1][character.getX() + x1].showOptions())
@@ -25,6 +29,20 @@ class Gameplay:
 			self.result = mapCord[character.getY() + y1][character.getX() + x1].interact(inp, character)
 		else:
 			self.result = "You can't interact with this object."
+
+	# def serachArray(self, inventory):
+	# 	selection = ""
+	# 	while selection != "e":
+	# 		try:
+	# 			inventory.showInventory()
+	# 			print("e: exit inventory")
+	# 			selection = input("Choose your option: ")
+	# 			selection = int(selection)
+	# 			print(inventory.getInventory()[selection].getName())
+	# 			print(inventory.getInventory()[selection].getDescription())
+	# 			print("")
+	# 		except (ValueError, IndexError):
+	# 			print("This option is not valid.")
 
 	def inventoryMenu(self, player):
 		selection = ""
@@ -34,8 +52,11 @@ class Gameplay:
 				print("e: exit inventory")
 				selection = input("Choose your option: ")
 				selection = int(selection)
-				print(player.inventory[selection].getName())
-				print(player.inventory[selection].getDescription())
+				print(player.getInventory()[selection].getName())
+				print(player.getInventory()[selection].getDescription())
+				print("POSSIBLE ACTIONS:s")
+				print("1. Drop Item\n"
+					  "e. exit possible actions")
 			except (ValueError, IndexError):
 				print("This option is not valid.")
 
@@ -49,7 +70,7 @@ class Gameplay:
 			"a": lambda: playerCharacter.moveCharacter(mapCord, "sideleft"),
 			"s": lambda: playerCharacter.moveCharacter(mapCord, "backward"),
 			"d": lambda: playerCharacter.moveCharacter(mapCord, "sideright"),
-			"f": lambda: self.interactObj(playerCharacter, mapCord),
+			"f": lambda: self.interactObj(playerCharacter, mapCord, True),
 			"i": lambda: self.inventoryMenu(playerCharacter)
 		}
 
