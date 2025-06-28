@@ -16,6 +16,9 @@ class WorldObject:
 	def getID(self):
 		return self.ID
 
+	def getInventory(self):
+		return self.inventory
+
 	def showInventory(self):
 		print("===")
 		print("OBJECT INVENTORY")
@@ -60,6 +63,8 @@ class WorldObject:
 
 	# 1 = look closer
 	# 2 = interact
+	# 3 = loot inventory
+	# 4 = transfer into item
 	# anything else = do nothing
 	def interact(self, response, player):
 		if response == "1":

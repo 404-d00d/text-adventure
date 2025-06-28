@@ -54,7 +54,7 @@ class Gameplay:
 				selection = int(selection)
 				print(player.getInventory()[selection].getName())
 				print(player.getInventory()[selection].getDescription())
-				print("POSSIBLE ACTIONS:s")
+				print("POSSIBLE ACTIONS:")
 				print("1. Drop Item\n"
 					  "e. exit possible actions")
 			except (ValueError, IndexError):
@@ -62,7 +62,7 @@ class Gameplay:
 
 
 	# for the player character actions only
-	def characterActions(self, act, mapCord, playerCharacter):
+	def characterActions(self, act, mapCord, playerCharacter, isSingleCommand):
 		commandHandlers = {
 			"e": lambda: playerCharacter.moveCharacter(mapCord, "right"),
 			"q": lambda: playerCharacter.moveCharacter(mapCord, "left"),
@@ -71,16 +71,27 @@ class Gameplay:
 			"s": lambda: playerCharacter.moveCharacter(mapCord, "backward"),
 			"d": lambda: playerCharacter.moveCharacter(mapCord, "sideright"),
 			"f": lambda: self.interactObj(playerCharacter, mapCord, True),
+			"F": lambda: self.interactObj(playerCharacter, mapCord, False),
 			"i": lambda: self.inventoryMenu(playerCharacter)
 		}
 
-		for a in act:
-			handler = commandHandlers.get(a)
+		# to make it single command, remove for loop and change a to act.
+
+		if not isSingleCommand:
+			for a in act:
+				handler = commandHandlers.get(a)
+				if handler:
+					handler()
+					# due to the way commands are handled if someone interacts with an object - if the user has keys after the interact key then the interactions are overwritten by the not a valid command message
+					# this prevents the interaction response from being overwritten.
+					if a=="f" or a=="F":
+						break
+				else:
+					self.result = "ERROR: Not a valid command"
+		else:
+			handler = commandHandlers.get(act)
 			if handler:
 				handler()
-				# due to the way commands are handled if someone interacts with an object - if the user has keys after the interact key then the interactions are overwritten by the not a valid command message
-				# this prevents the interaction response from being overwritten.
-				if a=="f":
-					break
 			else:
 				self.result = "ERROR: Not a valid command"
+
